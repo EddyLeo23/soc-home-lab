@@ -1,0 +1,44 @@
+{
+  "_note": "Trimmed excerpt of a Wazuh 4.14.8 alert. Hostname and username replaced with placeholders; unrelated fields removed.",
+  "timestamp": "2026-10-08T14:59:09.285+0000",
+  "agent": {
+    "id": "001",
+    "name": "laptop-endpoint",
+    "ip": "192.168.56.1"
+  },
+  "rule": {
+    "id": "92031",
+    "level": 3,
+    "description": "Discovery activity executed",
+    "groups": ["sysmon", "sysmon_eid1_detections", "windows"],
+    "firedtimes": 6,
+    "mitre": {
+      "id": ["T1087"],
+      "technique": ["Account Discovery"],
+      "tactic": ["Discovery"]
+    }
+  },
+  "data": {
+    "win": {
+      "system": {
+        "providerName": "Microsoft-Windows-Sysmon",
+        "eventID": "1",
+        "channel": "Microsoft-Windows-Sysmon/Operational",
+        "computer": "LAB-ENDPOINT"
+      },
+      "eventdata": {
+        "image": "C:\\Windows\\System32\\net1.exe",
+        "originalFileName": "net1.exe",
+        "commandLine": "C:\\WINDOWS\\system32\\net1 localgroup administrators",
+        "currentDirectory": "C:\\WINDOWS\\system32\\",
+        "user": "LAB-ENDPOINT\\labuser",
+        "integrityLevel": "Medium",
+        "terminalSessionId": "1",
+        "parentImage": "C:\\Windows\\System32\\net.exe",
+        "parentCommandLine": "\"C:\\WINDOWS\\system32\\net.exe\" localgroup administrators",
+        "parentUser": "LAB-ENDPOINT\\labuser",
+        "hashes": "MD5=158DB954503C803C0840DD424FB608F8,SHA256=8489DB35375D890314EB8F7CD9E0CBD3866475F4E252865F00F649B0A02FD757"
+      }
+    }
+  }
+}
