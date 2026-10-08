@@ -43,3 +43,7 @@ The parent is the same in both cases because `net.exe` launches `net1.exe` itsel
 - Rule 92031 is level 3, so on its own it would not page anyone. In a real SOC I would correlate repeated discovery commands from one user in a short window, or the same commands arriving from an unusual parent such as a script host or an Office process.
 - The agent's own startup `net user` shows how a default rule can generate noise. A tuning step would exclude that specific pattern (System integrity, `ossec-agent` working directory).
 - Planned: a custom Wazuh rule for this activity, and separate testing of `systeminfo` (T1082).
+
+## Update: second rule fired
+
+Each test command also triggered rule 92033, "Discovery activity spawned via powershell execution", which confirms Wazuh links these commands to PowerShell as the originating shell.
