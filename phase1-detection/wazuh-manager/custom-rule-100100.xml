@@ -1,0 +1,16 @@
+<!--
+  Custom Wazuh rule: System Information Discovery (T1082)
+  Appended to /var/ossec/etc/rules/local_rules.xml on the Wazuh manager.
+  Validate with: sudo /var/ossec/bin/wazuh-analysisd -t
+  Then apply with: sudo systemctl restart wazuh-manager
+-->
+<group name="local,windows,sysmon,">
+  <rule id="100100" level="6">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\systeminfo\.exe$</field>
+    <description>System Information Discovery: systeminfo.exe executed</description>
+    <mitre>
+      <id>T1082</id>
+    </mitre>
+  </rule>
+</group>

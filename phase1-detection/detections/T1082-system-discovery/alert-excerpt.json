@@ -1,0 +1,45 @@
+{
+  "_note": "Trimmed excerpt of a Wazuh 4.14.8 alert from custom rule 100100. Hostname and username replaced with placeholders; unrelated fields removed.",
+  "timestamp": "2026-10-08T15:23:50.839+0000",
+  "agent": {
+    "id": "001",
+    "name": "laptop-endpoint",
+    "ip": "192.168.56.1"
+  },
+  "rule": {
+    "id": "100100",
+    "level": 6,
+    "description": "System Information Discovery: systeminfo.exe executed",
+    "groups": ["local", "windows", "sysmon"],
+    "firedtimes": 1,
+    "mitre": {
+      "id": ["T1082"],
+      "technique": ["System Information Discovery"],
+      "tactic": ["Discovery"]
+    }
+  },
+  "data": {
+    "win": {
+      "system": {
+        "providerName": "Microsoft-Windows-Sysmon",
+        "eventID": "1",
+        "channel": "Microsoft-Windows-Sysmon/Operational",
+        "computer": "LAB-ENDPOINT"
+      },
+      "eventdata": {
+        "image": "C:\\Windows\\System32\\systeminfo.exe",
+        "originalFileName": "sysinfo.exe",
+        "description": "Displays system information",
+        "commandLine": "\"C:\\WINDOWS\\system32\\systeminfo.exe\"",
+        "currentDirectory": "C:\\WINDOWS\\system32\\",
+        "user": "LAB-ENDPOINT\\labuser",
+        "integrityLevel": "Medium",
+        "terminalSessionId": "1",
+        "parentImage": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "parentCommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\"",
+        "parentUser": "LAB-ENDPOINT\\labuser",
+        "hashes": "MD5=B772FD7A4DFF0F146E7B62F73FA08EF3,SHA256=A220A85750588F5B231FF8CB106BA5409EAABB85E3DD7278A98FCA907E171ED2"
+      }
+    }
+  }
+}
