@@ -1,0 +1,46 @@
+[
+  {
+    "alert": "T1082-system-discovery",
+    "rule_id": "100100",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The event is a normal system information discovery event triggered by the systeminfo.exe executable, which is a built-in Windows utility. The event is logged by Sysmon, a monitoring tool that tracks system activity.",
+    "model_next_step": "Monitor the endpoint for further activity",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The event is a normal system information discovery event triggered by the systeminfo.exe executable, which is a built-in Windows utility. The event is logged by Sysmon, a monitoring tool that tracks system activity.\",\n  \"next_step\": \"Monitor the endpoint for further activity\" }"
+  },
+  {
+    "alert": "T1087-account-discovery",
+    "rule_id": "92031",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The event is a discovery activity executed by the sysmon agent, which is a normal and expected activity. The event is related to the 'Account Discovery' technique, but the specific action is a legitimate system call to join a local group.",
+    "model_next_step": "Monitor the endpoint for any further suspicious activity",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The event is a discovery activity executed by the sysmon agent, which is a normal and expected activity. The event is related to the 'Account Discovery' technique, but the specific action is a legitimate system call to join a local group.\",\n  \"next_step\": \"Monitor the endpoint for any further suspicious activity\" }"
+  },
+  {
+    "alert": "T1547-registry-run-key",
+    "rule_id": "100101",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The event is a legitimate system event from the Windows Sysmon agent, indicating a scheduled task was run. The target object is a legitimate registry key.",
+    "model_next_step": "Monitor for similar events",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The event is a legitimate system event from the Windows Sysmon agent, indicating a scheduled task was run. The target object is a legitimate registry key.\",\n  \"next_step\": \"Monitor for similar events\" }"
+  },
+  {
+    "alert": "T1087-agent-startup-alert",
+    "rule_id": "92031",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "benign",
+    "match": true,
+    "model_reason": "The event is a normal Windows event (Event ID 1) executed by the Sysmon agent, indicating a discovery activity.",
+    "model_next_step": "Monitor the endpoint for any further suspicious activity",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The event is a normal Windows event (Event ID 1) executed by the Sysmon agent, indicating a discovery activity.\",\n  \"next_step\": \"Monitor the endpoint for any further suspicious activity\" }"
+  }
+]

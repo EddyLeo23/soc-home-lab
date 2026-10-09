@@ -1,0 +1,37 @@
+{
+  "_note": "Reconstructed from fields seen in the Wazuh dashboard for the 'net user' event raised at agent startup (benign). Fields not observed were left out. Not a raw export.",
+  "timestamp": "2026-10-08T14:32:57+0000",
+  "agent": {
+    "id": "001",
+    "name": "laptop-endpoint"
+  },
+  "rule": {
+    "id": "92031",
+    "level": 3,
+    "description": "Discovery activity executed",
+    "groups": ["sysmon", "sysmon_eid1_detections", "windows"],
+    "mitre": {
+      "id": ["T1087"],
+      "technique": ["Account Discovery"],
+      "tactic": ["Discovery"]
+    }
+  },
+  "data": {
+    "win": {
+      "system": {
+        "providerName": "Microsoft-Windows-Sysmon",
+        "eventID": "1",
+        "channel": "Microsoft-Windows-Sysmon/Operational"
+      },
+      "eventdata": {
+        "image": "C:\\Windows\\SysWOW64\\net1.exe",
+        "originalFileName": "net1.exe",
+        "commandLine": "C:\\WINDOWS\\system32\\net1 user",
+        "currentDirectory": "C:\\Program Files (x86)\\ossec-agent\\",
+        "integrityLevel": "System",
+        "parentImage": "C:\\Windows\\SysWOW64\\net.exe",
+        "parentCommandLine": "net user"
+      }
+    }
+  }
+}
