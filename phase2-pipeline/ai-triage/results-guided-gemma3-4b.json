@@ -1,0 +1,46 @@
+[
+  {
+    "alert": "T1082-system-discovery",
+    "rule_id": "100100",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The alert indicates `systeminfo.exe` was executed by `powershell.exe` at a medium integrity level, which is a standard tool for gathering system information. While it's a potential indicator of compromise, the context of execution by PowerShell and the medium integrity level suggest it's likely a routine system check.",
+    "model_next_step": "Monitor for further suspicious activity originating from this endpoint.",
+    "raw_response": "{\"severity\": \"low\", \"verdict\": \"benign\", \"reason\": \"The alert indicates `systeminfo.exe` was executed by `powershell.exe` at a medium integrity level, which is a standard tool for gathering system information. While it's a potential indicator of compromise, the context of execution by PowerShell and the medium integrity level suggest it's likely a routine system check.\", \"next_step\": \"Monitor for further suspicious activity originating from this endpoint.\"}"
+  },
+  {
+    "alert": "T1087-account-discovery",
+    "rule_id": "92031",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "suspicious",
+    "match": true,
+    "model_reason": "The alert indicates `net1.exe` is being used to query for membership in the 'administrators' group, which is a common tactic for reconnaissance. The parent process is `net.exe`, and the user is running with Medium integrity level, suggesting potential unauthorized access attempts.",
+    "model_next_step": "Investigate the user account 'LAB-ENDPOINT\\labuser' for suspicious activity and review the network traffic associated with this endpoint.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"The alert indicates `net1.exe` is being used to query for membership in the 'administrators' group, which is a common tactic for reconnaissance. The parent process is `net.exe`, and the user is running with Medium integrity level, suggesting potential unauthorized access attempts.\", \"next_step\": \"Investigate the user account 'LAB-ENDPOINT\\\\labuser' for suspicious activity and review the network traffic associated with this endpoint.\"}"
+  },
+  {
+    "alert": "T1547-registry-run-key",
+    "rule_id": "100101",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "suspicious",
+    "match": true,
+    "model_reason": "The alert indicates a 'Run' key in the registry was set to 'calc.exe' using PowerShell, which is a built-in Windows application. While not inherently malicious, the use of a 'Run' key for persistence is a common tactic used by attackers to maintain access.",
+    "model_next_step": "Investigate the purpose of 'TestPersist' and the user 'labuser' for any other suspicious activity.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"The alert indicates a 'Run' key in the registry was set to 'calc.exe' using PowerShell, which is a built-in Windows application. While not inherently malicious, the use of a 'Run' key for persistence is a common tactic used by attackers to maintain access.\", \"next_step\": \"Investigate the purpose of 'TestPersist' and the user 'labuser' for any other suspicious activity.\"}"
+  },
+  {
+    "alert": "T1087-agent-startup-alert",
+    "rule_id": "92031",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "benign",
+    "match": false,
+    "model_reason": "The alert indicates `net1.exe` is being run with `net user` from a suspicious directory (`C:\\Program Files (x86)\\ossec-agent\\`) and at the 'System' integrity level, which suggests potential reconnaissance activity.  The parent process `net.exe` also running `net user` further raises suspicion.",
+    "model_next_step": "Investigate the `ossec-agent` directory for further suspicious activity.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"The alert indicates `net1.exe` is being run with `net user` from a suspicious directory (`C:\\\\Program Files (x86)\\\\ossec-agent\\\\`) and at the 'System' integrity level, which suggests potential reconnaissance activity.  The parent process `net.exe` also running `net user` further raises suspicion.\", \"next_step\": \"Investigate the `ossec-agent` directory for further suspicious activity.\"}"
+  }
+]
