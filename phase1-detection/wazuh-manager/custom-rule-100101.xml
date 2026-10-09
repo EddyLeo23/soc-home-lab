@@ -1,0 +1,21 @@
+<!--
+  Custom Wazuh rule: Persistence via autostart Run key (T1547.001)
+  Appended to /var/ossec/etc/rules/local_rules.xml on the Wazuh manager.
+
+  This rule is a CHILD of built-in rule 92300 (level 0, "Added registry content to be
+  executed on next logon", defined in /var/ossec/ruleset/rules/0860-sysmon_id_13.xml).
+  92300 recognises the Run-key write but is silent by design. An earlier version of this
+  rule sat beside it (if_group sysmon_event_13) and never fired.
+
+  Validate with: sudo /var/ossec/bin/wazuh-analysisd -t
+  Then apply with: sudo systemctl restart wazuh-manager
+-->
+<group name="local,windows,sysmon,persistence,">
+  <rule id="100101" level="8">
+    <if_sid>92300</if_sid>
+    <description>Persistence: autostart Run key value set ($(win.eventdata.targetObject))</description>
+    <mitre>
+      <id>T1547.001</id>
+    </mitre>
+  </rule>
+</group>
