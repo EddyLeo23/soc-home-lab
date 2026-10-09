@@ -1,0 +1,46 @@
+[
+  {
+    "alert": "T1082-system-discovery",
+    "rule_id": "100100",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The alert is triggered by systeminfo.exe, a built-in Windows tool, executed by a legitimate process (WindowsPowerShell) as a medium-integrity user (LAB-ENDPOINT\\labuser).",
+    "model_next_step": "Monitor for any unusual systeminfo.exe activity",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The alert is triggered by systeminfo.exe, a built-in Windows tool, executed by a legitimate process (WindowsPowerShell) as a medium-integrity user (LAB-ENDPOINT\\\\labuser).\",\n  \"next_step\": \"Monitor for any unusual systeminfo.exe activity\" }"
+  },
+  {
+    "alert": "T1087-account-discovery",
+    "rule_id": "92031",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The process 'net1.exe' is a built-in Windows tool, and the command line is a legitimate action to join a local group. The user running the process is 'labuser' with medium integrity level.",
+    "model_next_step": "Monitor the system for any unusual activity related to the 'net1.exe' process",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The process 'net1.exe' is a built-in Windows tool, and the command line is a legitimate action to join a local group. The user running the process is 'labuser' with medium integrity level.\",\n  \"next_step\": \"Monitor the system for any unusual activity related to the 'net1.exe' process\" }"
+  },
+  {
+    "alert": "T1547-registry-run-key",
+    "rule_id": "100101",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The event is a legitimate autostart entry for the 'calc.exe' executable, which is a built-in Windows tool. The user running the event is 'labuser' with a valid Windows account.",
+    "model_next_step": "Monitor for further autostart entries from the same user and process.",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The event is a legitimate autostart entry for the 'calc.exe' executable, which is a built-in Windows tool. The user running the event is 'labuser' with a valid Windows account.\",\n  \"next_step\": \"Monitor for further autostart entries from the same user and process.\"}"
+  },
+  {
+    "alert": "T1087-agent-startup-alert",
+    "rule_id": "92031",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "benign",
+    "match": true,
+    "model_reason": "The process 'net1.exe' is a built-in Windows tool, and it is running with System integrity level, which is a normal and expected behavior.",
+    "model_next_step": "Monitor for any unusual activity related to the 'net1.exe' process",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The process 'net1.exe' is a built-in Windows tool, and it is running with System integrity level, which is a normal and expected behavior.\",\n  \"next_step\": \"Monitor for any unusual activity related to the 'net1.exe' process\" }"
+  }
+]

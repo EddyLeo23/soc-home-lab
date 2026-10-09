@@ -14,13 +14,12 @@ small illustration of model behaviour, not a benchmark.
 
 ## My review
 
-Run 1: llama3.2:3b, basic prompt with no guidance on which fields to examine.
+Run 1: `llama3.2:3b`, basic prompt with no guidance on which fields to examine.
 
-- The model called all four alerts benign, including PowerShell writing an autostart Run-key entry for calc.exe. In a real SOC that is a missed persistence attempt.
-- Its one match (the agent-startup event) is not evidence of skill: it said benign for everything, and its reasoning cited neither the System integrity level nor the ossec-agent working directory that actually explain that event.
+- The model called all four alerts benign, including PowerShell writing an autostart Run-key entry for `calc.exe`. In a real SOC that is a missed persistence attempt.
+- Its one match (the agent-startup event) is not evidence of skill: it said benign for everything, and its reasoning cited neither the System integrity level nor the `ossec-agent` working directory that actually explain that event.
 - It treated Sysmon, the logging sensor, as the actor ("executed by the Sysmon agent").
 - It reasoned from "built-in Windows utility" to "benign", and never mentioned the user, integrity level, parent process or the value written to the registry.
-- It invented details: 
-et localgroup administrators became a call "to join a local group", and the Run-key write became "a scheduled task was run".
+- It invented details: `net localgroup administrators` became a call "to join a local group", and the Run-key write became "a scheduled task was run".
 - It rated every alert low severity, including the one raised by a level-8 rule.
-- Caveat: one small model, one prompt and four alerts, so this illustrates model behaviour and is not a benchmark. The next run tests whether guidance in the prompt changes the result.
+- Caveat: one small model, one prompt and four alerts, so this illustrates model behaviour and is not a benchmark.
