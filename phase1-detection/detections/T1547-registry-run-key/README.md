@@ -45,3 +45,7 @@ One more lesson: a search on the manager for the word `TestPersist` matched my o
 - **Coverage.** The test used the current-user key (HKCU). Local-machine keys, `RunOnce`, the Startup folder, services and scheduled tasks were not tested, and the rule only covers the paths that rule 92300 covers.
 - **Detection value of the parent.** Because the rule inherits from 92300, it only fires when 92300 matches, so any evasion of that pattern also evades this rule.
 - Planned: test the HKLM and `RunOnce` variants, and add severity tuning based on the target path.
+
+## Observed legitimate Run entries on this endpoint
+
+The same key on this laptop already holds entries for common software such as OneDrive and Microsoft Edge. A rewrite of those entries (for example during an update) would be expected to match this rule. That is a concrete example of the noise described above, and the reason a real deployment needs path- and writer-based tuning.
