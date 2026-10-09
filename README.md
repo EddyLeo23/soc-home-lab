@@ -1,4 +1,6 @@
-# Home SOC Lab: Wazuh + Sysmon detection engineering
+﻿# Home SOC Lab: Wazuh + Sysmon detection engineering
+
+Built by Edwin López | [LinkedIn](https://www.linkedin.com/in/edwin2390/)
 
 A small home SOC built to practise the detection side of security operations: collect endpoint telemetry, see what the default ruleset catches, find the gaps, and close them with custom rules. Each detection is tested against a real endpoint and documented with the alert, the reasoning, and the limitations.
 
