@@ -1,0 +1,21 @@
+   // T1098.003 - Additional Cloud Roles (draft v0.1 - join validated, no role filter yet)
+   // Finding: AzureActivity splits role assignments into Start (has roleDefinitionId in
+   // Properties_d.requestbody) and Success (no request body). Joined on CorrelationId + entity
+   // so we keep only assignments that actually succeeded, with the role attached.
+   // Note: requestbody field names are camelCase (properties.roleDefinitionId) - KQL is case-sensitive.
+   let Started = AzureActivity
+       | where TimeGenerated > ago(2h)
+       | where OperationNameValue =~ "MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE"
+       | where ActivityStatusValue =~ "Start"
+       | extend Req = parse_json(tostring(Properties_d.requestbody))
+       | extend RoleGuid = tostring(split(tostring(Req.properties.roleDefinitionId), "/")[-1]),
+                PrincipalType = tostring(Req.properties.principalType),
+                Entity = tostring(Properties_d.entity)
+       | project CorrelationId, Entity, RoleGuid, PrincipalType;
+   AzureActivity
+   | where TimeGenerated > ago(2h)
+   | where OperationNameValue =~ "MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE"
+   | where ActivityStatusValue =~ "Success"
+   | extend Entity = tostring(Properties_d.entity)
+   | join kind=inner Started on CorrelationId, Entity
+   | project TimeGenerated, Caller, RoleGuid, PrincipalType, ResourceGroup
