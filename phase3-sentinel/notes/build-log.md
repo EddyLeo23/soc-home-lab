@@ -28,3 +28,35 @@
 
 &#x20;  **- Milestone gate: day 24 = 2026-11-04 (core detections done or skip stretch)**
 
+
+
+&#x20;  **## Portal access**
+
+&#x20;  **- Sentinel used in the unified Microsoft Defender portal (security.microsoft.com)**
+
+&#x20;  **- Personal Microsoft account (MSA) sign-in failed against the default "Microsoft Services" tenant;**
+
+&#x20;    **fixed by signing in with the tenant-specific URL (?tid=<tenant ID>, not recorded here)**
+
+&#x20;  **- First KQL query run in Advanced hunting (2026-10-12)**
+
+
+
+&#x20;  **## Milestones**
+
+&#x20;  **- \[x] M1 - Workspace ready (2026-10-12)**
+
+&#x20;  **- \[ ] M2 - Cloud detection validated (T1098.003)**
+
+&#x20;  **- \[ ] M3 - Endpoint data verified**
+
+&#x20;  **- \[ ] M4 - Core done**
+
+&#x20;  **- \[ ] M5 - Stretch**
+
+&#x20;  **- \[ ] M6 - Close out**
+
+
+
+
+
