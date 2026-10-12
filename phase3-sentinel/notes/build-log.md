@@ -1,78 +1,108 @@
-﻿&#x20;  **## Setup**
-
-&#x20;  **- Resource group: rg-sentinel-lab (West Europe)**
-
-&#x20;  **- Workspace: law-sentinel-lab - North Europe (created 2026-10-12)**
-
-&#x20;    **- West Europe: rejected, region not accepting new customers (RequestDisallowedByAzure)**
-
-&#x20;    **- Spain Central: workspace created, but Sentinel could not be added (region not supported for Sentinel); deleted permanently and recreated**
-
-&#x20;    **- Resource group region is metadata only; workspace region can differ**
-
-&#x20;  **- Pricing tier: Pay-as-you-go (Per GB 2018)**
-
-&#x20;  **- Daily cap: 0.5 GB/day**
-
-&#x20;  **- Budget: EUR 5/month, alerts at 50% / 100% actual and 100% forecast**
-
-&#x20;  **- Billing: free account status pending confirmation (credit info not loading)**
+﻿\# Phase 3 - Microsoft Sentinel build log
 
 
 
-&#x20;  **## Sentinel**
+\## Setup
 
-&#x20;  **- Enabled: 2026-10-12**
+\- Resource group: rg-sentinel-lab (West Europe)
 
-&#x20;  **- Free trial: 2026-10-12 to 2026-11-12 23:59 UTC (10 GB/day free)**
+\- Workspace: law-sentinel-lab - North Europe (created 2026-10-12)
 
-&#x20;  **- Milestone gate: day 24 = 2026-11-04 (core detections done or skip stretch)**
+&#x20; - West Europe: rejected, region not accepting new customers (RequestDisallowedByAzure)
 
+&#x20; - Spain Central: workspace created, but Sentinel could not be added (region not supported for Sentinel); deleted permanently and recreated
 
+&#x20; - Resource group region is metadata only; workspace region can differ
 
-&#x20;  **## Portal access**
+\- Pricing tier: Pay-as-you-go (Per GB 2018)
 
-&#x20;  **- Sentinel used in the unified Microsoft Defender portal (security.microsoft.com)**
+\- Daily cap: 0.5 GB/day
 
-&#x20;  **- Personal Microsoft account (MSA) sign-in failed against the default "Microsoft Services" tenant;**
+\- Budget: EUR 5/month, alerts at 50% / 100% actual and 100% forecast
 
-&#x20;    **fixed by signing in with the tenant-specific URL (?tid=<tenant ID>, not recorded here)**
-
-&#x20;  **- First KQL query run in Advanced hunting (2026-10-12)**
-
-
-
-&#x20;  **## Milestones**
-
-&#x20;  **- \[x] M1 - Workspace ready (2026-10-12)**
-
-&#x20;  **- \[ ] M2 - Cloud detection validated (T1098.003)**
-
-&#x20;  **- \[ ] M3 - Endpoint data verified**
-
-&#x20;  **- \[ ] M4 - Core done**
-
-&#x20;  **- \[ ] M5 - Stretch**
-
-&#x20;  **- \[ ] M6 - Close out**
+\- Billing: free account status pending confirmation (credit info not loading)
 
 
 
-&#x20;  **## Phase 2 - Azure Activity**
+\## Sentinel
 
-&#x20;  **- Content hub: Azure Activity solution installed (1 connector, 14 rule templates, 15 hunting queries, 2 workbooks)**
+\- Enabled: 2026-10-12
 
-&#x20;  **- Connector policy assigned at subscription scope ("Configure Azure Activity logs to stream...")**
+\- Free trial: 2026-10-12 to 2026-11-12 23:59 UTC (10 GB/day free)
 
-&#x20;    **- First attempt scoped to the resource group by mistake; corrected - Activity Log export is subscription-level**
-
-&#x20;    **- Policy evaluation showed "Not started" (can take 30+ min)**
-
-&#x20;  **- Created diagnostic setting directly: activity-to-sentinel, all 8 categories -> law-sentinel-lab**
-
-&#x20;  **- Test event: tag project=sentinel-lab added to rg-sentinel-lab at HH:MM**
+\- Milestone gate: day 24 = 2026-11-04 (core detections done or skip stretch)
 
 
 
+\## Portal access
 
+\- Sentinel used in the unified Microsoft Defender portal (security.microsoft.com)
+
+\- Personal Microsoft account (MSA) sign-in failed against the default "Microsoft Services" tenant;
+
+&#x20; fixed by signing in with the tenant-specific URL (?tid=<tenant ID>, not recorded here)
+
+\- First KQL query run in Advanced hunting (2026-10-12)
+
+
+
+\## Phase 2 - Azure Activity
+
+\- Content hub: Azure Activity solution installed (1 connector, 14 rule templates, 15 hunting queries, 2 workbooks)
+
+\- Connector policy assigned at subscription scope ("Configure Azure Activity logs to stream...")
+
+&#x20; - First attempt scoped to the resource group by mistake; corrected - Activity Log export is subscription-level
+
+&#x20; - Policy evaluation showed "Not started" (can take 30+ min)
+
+\- Created diagnostic setting directly: activity-to-sentinel, all 8 categories -> law-sentinel-lab
+
+\- Test event: tag project=sentinel-lab added to rg-sentinel-lab - ingestion confirmed in AzureActivity
+
+
+
+\### Schema findings (T1098.003)
+
+\- Operation value: MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE
+
+\- Each action logs a Start row and a Success row
+
+\- Role details (roleDefinitionId, principalType) exist only on the Start row, inside
+
+&#x20; Properties\_d.requestbody as a JSON string - needs parse\_json(tostring(...))
+
+\- Field names in requestbody are camelCase (properties.roleDefinitionId); KQL is case-sensitive
+
+\- Success row has no request body -> joined Start + Success on CorrelationId + entity
+
+\- First real role assignments observed: policy managed identity received
+
+&#x20; Monitoring Contributor (749f88d5...) and Log Analytics Contributor (92aaf0da...)
+
+
+
+\### Tests
+
+\- Benign: privileged-role filter (Owner / Contributor / User Access Administrator) run over
+
+&#x20; the two policy-identity assignments -> no results (expected: no alert)
+
+\- Test user lab-test-user created in Entra ID at 15:31 (UPN not recorded)
+
+
+
+\## Milestones
+
+\- \[x] M1 - Workspace ready (2026-10-12)
+
+\- \[ ] M2 - Cloud detection validated (T1098.003)
+
+\- \[ ] M3 - Endpoint data verified
+
+\- \[ ] M4 - Core done
+
+\- \[ ] M5 - Stretch
+
+\- \[ ] M6 - Close out
 
