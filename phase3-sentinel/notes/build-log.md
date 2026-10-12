@@ -106,3 +106,6 @@
 
 \- \[ ] M6 - Close out
 
+- Suspicious test: Contributor assigned to lab-test-user on rg-sentinel-lab via portal at 15:44
+  - v0.1 query returned nothing: portal requestbody uses PascalCase, policy uses camelCase
+  - v0.2 reads both with coalesce() -> 1 row (Contributor, User) - detection validated
