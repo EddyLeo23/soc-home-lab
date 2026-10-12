@@ -58,5 +58,21 @@
 
 
 
+&#x20;  **## Phase 2 - Azure Activity**
+
+&#x20;  **- Content hub: Azure Activity solution installed (1 connector, 14 rule templates, 15 hunting queries, 2 workbooks)**
+
+&#x20;  **- Connector policy assigned at subscription scope ("Configure Azure Activity logs to stream...")**
+
+&#x20;    **- First attempt scoped to the resource group by mistake; corrected - Activity Log export is subscription-level**
+
+&#x20;    **- Policy evaluation showed "Not started" (can take 30+ min)**
+
+&#x20;  **- Created diagnostic setting directly: activity-to-sentinel, all 8 categories -> law-sentinel-lab**
+
+&#x20;  **- Test event: tag project=sentinel-lab added to rg-sentinel-lab at HH:MM**
+
+
+
 
 
