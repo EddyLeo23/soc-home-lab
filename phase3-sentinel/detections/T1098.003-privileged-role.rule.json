@@ -1,0 +1,88 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspace": {
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/c1929c88-bb52-4fef-89c9-9d19cb5957a6')]",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/c1929c88-bb52-4fef-89c9-9d19cb5957a6')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "kind": "Scheduled",
+            "apiVersion": "2023-12-01-preview",
+            "properties": {
+                "displayName": "Privileged Azure role assigned (T1098.003)",
+                "description": "Fires when Owner, Contributor or User Access Administrator is successfully assigned in Azure. Role is parsed from the Start event and joined to the Success event. Handles camelCase (Policy/ARM) and PascalCase (portal) request bodies.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "let PrivilegedRoles = datatable(RoleGuid:string, RoleName:string) [\r\n    \"8e3af657-a8ff-443c-a75c-2fe8c4bcb635\", \"Owner\",\r\n    \"b24988ac-6180-42a0-ab88-20f7382dd24c\", \"Contributor\",\r\n    \"18d7d88d-d35e-4fb5-a5c3-7773c20a72d9\", \"User Access Administrator\"\r\n];\r\nlet Started = AzureActivity\r\n    | where TimeGenerated > ago(1h)\r\n    | where OperationNameValue =~ \"MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE\"\r\n    | where ActivityStatusValue =~ \"Start\"\r\n    | extend Req = parse_json(tostring(Properties_d.requestbody))\r\n    | extend RoleDefId = coalesce(tostring(Req.properties.roleDefinitionId),\r\n                                  tostring(Req.Properties.RoleDefinitionId)),\r\n             PrincipalType = coalesce(tostring(Req.properties.principalType),\r\n                                      tostring(Req.Properties.PrincipalType)),\r\n             Entity = tostring(Properties_d.entity)\r\n    | extend RoleGuid = tostring(split(RoleDefId, \"/\")[-1])\r\n    | project CorrelationId, Entity, RoleGuid, PrincipalType;\r\nAzureActivity\r\n| where TimeGenerated > ago(1h)\r\n| where ingestion_time() > ago(15m)   // only events that arrived since the last run -> no duplicates\r\n| where OperationNameValue =~ \"MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE\"\r\n| where ActivityStatusValue =~ \"Success\"\r\n| extend Entity = tostring(Properties_d.entity)\r\n| join kind=inner Started on CorrelationId, Entity\r\n| join kind=inner PrivilegedRoles on RoleGuid\r\n| project TimeGenerated, Caller, CallerIpAddress, RoleName, PrincipalType, ResourceGroup",
+                "queryFrequency": "PT15M",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "startTimeUtc": null,
+                "tactics": [
+                    "Persistence",
+                    "PrivilegeEscalation"
+                ],
+                "techniques": [
+                    "T1098"
+                ],
+                "subTechniques": [
+                    "T1098.003"
+                ],
+                "alertRuleTemplateName": null,
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": false,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "AlertPerResult"
+                },
+                "alertDetailsOverride": {
+                    "alertDisplayNameFormat": "{{RoleName}} assigned in {{ResourceGroup}} (T1098.003)",
+                    "alertDescriptionFormat": "{{Caller}} assigned {{RoleName}} in {{ResourceGroup}}. Check custom details for principal type.",
+                    "alertDynamicProperties": []
+                },
+                "customDetails": {
+                    "RoleName": "PrincipalType"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "FullName",
+                                "columnName": "Caller"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "IP",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Address",
+                                "columnName": "CallerIpAddress"
+                            }
+                        ]
+                    }
+                ],
+                "sentinelEntitiesMappings": null,
+                "templateVersion": null
+            }
+        }
+    ]
+}
