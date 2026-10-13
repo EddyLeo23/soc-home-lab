@@ -96,7 +96,7 @@
 
 \- \[x] M1 - Workspace ready (2026-10-12)
 
-\- \[ ] M2 - Cloud detection validated (T1098.003)
+\- \[x] M2 - Cloud detection validated (T1098.003) - 2026-10-13
 
 \- \[ ] M3 - Endpoint data verified
 
@@ -129,3 +129,5 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Re-test result: incident #2 created 2026-10-13 14:45:47 (activity 14:32:22, ~13 min).
   Dynamic title shows role; IP entity now mapped; constrained (conditioned) UAA still parsed correctly
 - Incidents #1 and #2 resolved: Informational, expected activity (security testing), tag controlled-test
+- v1.0 (2026-10-13): added RBAC Administrator; dynamic severity via AlertSeverity column + property override.
+  Severity override configured but not yet validated with a High-severity incident.

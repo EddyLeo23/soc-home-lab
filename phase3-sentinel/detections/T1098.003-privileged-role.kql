@@ -1,18 +1,23 @@
-﻿// T1098.003 - Additional Cloud Roles: privileged Azure role assigned (v0.2)
-// Data: AzureActivity (free). Fires on successful Owner / Contributor / User Access Administrator assignments.
-// Findings:
+﻿// T1098.003 - Additional Cloud Roles: privileged Azure role assigned (v1.0)
+// Data: AzureActivity (free). Scheduled rule: every 15 min, 1 h lookback.
+// Findings during build:
 //  - Role details exist only on the Start row (Properties_d.requestbody, JSON string);
 //    Success row has none -> join Start + Success on CorrelationId + entity.
-//  - requestbody casing depends on the tool: Azure Policy/ARM = camelCase (properties.roleDefinitionId),
-//    Azure portal = PascalCase (Properties.RoleDefinitionId). KQL is case-sensitive -> coalesce both.
-//    v0.1 read only camelCase and silently missed a portal-made Contributor assignment.
-let PrivilegedRoles = datatable(RoleGuid:string, RoleName:string) [
-    "8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "Owner",
-    "b24988ac-6180-42a0-ab88-20f7382dd24c", "Contributor",
-    "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9", "User Access Administrator"
+//  - requestbody casing depends on the tool: Policy/ARM = camelCase, portal = PascalCase -> coalesce both.
+//  - Scheduled (not NRT): Start/Success can land in different ingestion batches.
+//  - ingestion_time() > ago(15m) on Success rows prevents duplicate alerts across overlapping runs.
+// v1.0: added Role Based Access Control Administrator; dynamic severity
+//       (High = roles that can grant access, Medium = Contributor).
+// Limitations: Entra ID directory roles not covered (different log source); no expected-admin
+//              allowlist yet; role removals not detected.
+let PrivilegedRoles = datatable(RoleGuid:string, RoleName:string, AlertSeverity:string) [
+    "8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "Owner", "High",
+    "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9", "User Access Administrator", "High",
+    "f58310d9-a9f6-439a-9e8d-f62e7b41a168", "Role Based Access Control Administrator", "High",
+    "b24988ac-6180-42a0-ab88-20f7382dd24c", "Contributor", "Medium"
 ];
 let Started = AzureActivity
-    | where TimeGenerated > ago(24h)
+    | where TimeGenerated > ago(1h)
     | where OperationNameValue =~ "MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE"
     | where ActivityStatusValue =~ "Start"
     | extend Req = parse_json(tostring(Properties_d.requestbody))
@@ -24,10 +29,11 @@ let Started = AzureActivity
     | extend RoleGuid = tostring(split(RoleDefId, "/")[-1])
     | project CorrelationId, Entity, RoleGuid, PrincipalType;
 AzureActivity
-| where TimeGenerated > ago(24h)
+| where TimeGenerated > ago(1h)
+| where ingestion_time() > ago(15m)
 | where OperationNameValue =~ "MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE"
 | where ActivityStatusValue =~ "Success"
 | extend Entity = tostring(Properties_d.entity)
 | join kind=inner Started on CorrelationId, Entity
 | join kind=inner PrivilegedRoles on RoleGuid
-| project TimeGenerated, Caller, RoleName, PrincipalType, ResourceGroup
+| project TimeGenerated, Caller, CallerIpAddress, RoleName, PrincipalType, ResourceGroup, AlertSeverity
