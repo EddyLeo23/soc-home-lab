@@ -122,3 +122,10 @@
     and dynamic alert title/description (description limited to 3 column parameters)
   - No IP evidence on incident -> IP entity was mapped to Caller instead of CallerIpAddress; fixed
 - Re-test: UAA with "Recommended" condition assigned at 14:32 - result pending 
+
+Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallback planned
+
+
+- Re-test result: incident #2 created 2026-10-13 14:45:47 (activity 14:32:22, ~13 min).
+  Dynamic title shows role; IP entity now mapped; constrained (conditioned) UAA still parsed correctly
+- Incidents #1 and #2 resolved: Informational, expected activity (security testing), tag controlled-test
