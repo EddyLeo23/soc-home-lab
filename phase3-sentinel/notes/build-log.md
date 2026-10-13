@@ -109,3 +109,16 @@
 - Suspicious test: Contributor assigned to lab-test-user on rg-sentinel-lab via portal at 15:44
   - v0.1 query returned nothing: portal requestbody uses PascalCase, policy uses camelCase
   - v0.2 reads both with coalesce() -> 1 row (Contributor, User) - detection validated
+
+### Analytics rule - Privileged Azure role assigned (T1098.003)
+- Created 2026-10-12 as a Scheduled rule (not NRT): the rule joins Start + Success rows, which may
+  arrive in different ingestion batches; NRT only sees newly ingested data and could miss the pair
+- Runs every 15 min, looks back 1 h; ingestion_time() > ago(15m) on the Success row prevents duplicate alerts
+- MITRE: Persistence + Privilege Escalation, T1098.003; severity Medium; incidents enabled, no grouping
+- End-to-end test: UAA (unconstrained) assigned at 16:22:39 -> incident #1 created 16:35:34 (~13 min)
+- Triage: incident assigned, set In Progress, tagged controlled-test
+- Tuning after reviewing incident #1:
+  - Analyst could not see which role was assigned -> added custom details (RoleName, PrincipalType)
+    and dynamic alert title/description (description limited to 3 column parameters)
+  - No IP evidence on incident -> IP entity was mapped to Caller instead of CallerIpAddress; fixed
+- Re-test: UAA with "Recommended" condition assigned at 14:32 - result pending 
