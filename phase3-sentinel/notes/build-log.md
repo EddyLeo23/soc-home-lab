@@ -192,3 +192,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Finding: runas and lock-screen typing are both LogonType 2; they differ by LogonProcessName
   (seclogo vs User32). Useful as context in the alert, but not used as a filter: a real attacker
   would not necessarily use runas, so the rule counts all logon processes
+- Sliding-window version tested in Advanced hunting (threshold 5, window 10 min in 1-min steps,
+  lookback/newData widened to 2 h for the test): 1 row - labtest, FailedCount 7,
+  15:14:39 - 15:15:04, seclogo, wrong password; no row for the real user
+- Finding: Security events were ingested ~30 s after the event (LatestIngest 15:15:36), much faster
+  than the Azure Activity Log (~10-20 min). Rule: run every 10 min, lookback 1 h, newData 10 min
+- Saved as detections/T1110.001-repeated-failed-logons.v0.2.kql (replaces the bin()-based draft)

@@ -1,0 +1,40 @@
+﻿// T1110.001 - Repeated failed logons (sliding window) - rule query v0.2
+// Rule settings: run every 10 min, lookback 1 h
+// Counts 4625 per Computer + TargetUserName in any 10-min sliding window (1-min steps).
+// Alerts only if at least one failure was ingested in the last run interval (newData),
+// so one burst does not alert on every run.
+let threshold = 5;
+let window = 10;          // minutes
+let lookback = 1h;
+let newData = 10m;        // = run frequency
+SecurityEvent
+| where TimeGenerated > ago(lookback)
+| where EventID == 4625
+| extend IngestTime = ingestion_time()
+| extend FailureType = case(
+    SubStatus =~ "0xc000006a", "Wrong password (account exists)",
+    SubStatus =~ "0xc0000064", "User does not exist",
+    SubStatus =~ "0xc0000234", "Account locked out",
+    SubStatus =~ "0xc0000072", "Account disabled",
+    strcat("Other (", SubStatus, ")"))
+| mv-expand k = range(0, window - 1, 1) to typeof(int)
+| extend WindowStart = bin(TimeGenerated, 1m) - 1m * k
+| summarize FailedCount = dcount(strcat(tostring(TimeGenerated), EventData)),
+            FirstFailure = min(TimeGenerated),
+            LastFailure = max(TimeGenerated),
+            LatestIngest = max(IngestTime),
+            LogonTypes = make_set(LogonType),
+            LogonProcesses = make_set(trim(" ", LogonProcessName)),
+            FailureTypes = make_set(FailureType)
+            by Computer, TargetUserName, WindowStart
+| where FailedCount >= threshold
+| summarize FailedCount = max(FailedCount),
+            FirstFailure = min(FirstFailure),
+            LastFailure = max(LastFailure),
+            LatestIngest = max(LatestIngest),
+            LogonTypes = make_set(LogonTypes),
+            LogonProcesses = make_set(LogonProcesses),
+            FailureTypes = make_set(FailureTypes)
+            by Computer, TargetUserName
+| where LatestIngest > ago(newData)
+| extend AccountName = TargetUserName, HostName = Computer
