@@ -131,3 +131,11 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Incidents #1 and #2 resolved: Informational, expected activity (security testing), tag controlled-test
 - v1.0 (2026-10-13): added RBAC Administrator; dynamic severity via AlertSeverity column + property override.
   Severity override configured but not yet validated with a High-severity incident.
+- DCR dcr-windows-security (Windows Security Events via AMA connector), custom XPath:
+  Security EventIDs 4624, 4625, 4688, 4740 only - from DESKTOP-MLESSQ7
+- Azure Monitor Agent installed via Arc automatically; Heartbeat confirmed
+- Legacy "Security Events" connector shows green too (same SecurityEvent table) - not in use
+- Enabled Process Creation auditing + command line in 4688 (auditpol + registry)
+- First 72 h: 4624 x364, 4625 x2 (real mistyped logons - future T1110 benign case), 4688 x4387
+- Volume: ~3 MB/day total (SecurityEvent ~2.2 MB/day) - under 1% of the 0.5 GB/day cap
+- Cost check 2026-10-15: EUR 175.99 free credit untouched
