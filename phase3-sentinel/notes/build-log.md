@@ -289,3 +289,12 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Incident creation enabled, alert grouping off, no automated response yet
 - Screenshots: 15 entity mapping, 16 custom details, 17 scheduling
 - Next: run the Atomic test again with the rule live, check the incident, then clean up
+- 2026-10-15 end-to-end test: Atomic T1547.001 test #1 at 17:55, value deleted immediately, Run key
+  verified back to the original entries. Incident #5 created 18:04:32 (~9 min); First/Last activity
+  17:55:32 matches the write (the rule keeps the event's TimeGenerated, no v0.3-style fix needed)
+- Custom details verified: ValueName Atomic Red Team, Payload C:\Path\AtomicRedTeam.exe,
+  Process C:\WINDOWS\system32\reg.exe. Screenshots 18 and 19 (username redacted before commit)
+- Incident #5 resolved: Informational, expected activity (security testing), tag controlled-test
+- Known limitation: the rule has no allow-list - any Run/RunOnce write alerts (installers, updaters).
+  Expected false-positive source; tuning idea: exclude known Image/ValueName pairs via a watchlist
+- Pending: export the rule as JSON, tag t1547.001-v1.0, Wazuh 100101 comparison
