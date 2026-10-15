@@ -211,3 +211,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Incident creation enabled, alert grouping off, no automated response yet
 - Screenshots: 07 entity mapping, 08 custom details, 09 scheduling
 - Next: end-to-end test (new runas burst) and check that an incident is created
+- 2026-10-15 16:05 (local): end-to-end test - 7 wrong-password attempts with
+  'runas /user:DESKTOP-MLESSQ7\labtest cmd' (lockout threshold 10, correct password never entered)
+  - Expected: scheduled rule runs within 10 min -> incident
+    '7 failed logons for labtest on DESKTOP-MLESSQ7 (T1110.001)'
+  - Dedup check: the earlier 15:14 burst must NOT produce an incident (outside newData window)
+  - Result: pending
