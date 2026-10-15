@@ -263,3 +263,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   match the \CurrentVersion\Run part of TargetObject, not the hive prefix
 - The delete (Sysmon DeleteValue) is not collected: the DCR takes EID 1 and 13 only
 - Wazuh comparison (rule 100101) and the KQL logic test: pending
+- 2026-10-15: Sysmon_Parsed updated to v2 (replaced the saved function in Workspace Logs):
+  added IngestTime column. ingestion_time() returns empty after the mv-apply/project reshaping
+  (the Run-key rule query with an ingestion filter returned nothing), so it is now read before the
+  reshaping and carried through. Rules use it for the newData dedup filter
+- Verified: Sysmon_Parsed returns a filled IngestTime. Source: detections/Sysmon_Parsed.v2.kql
+  (v1 kept as Sysmon_Parsed.kql for history)

@@ -1,0 +1,24 @@
+﻿// Sysmon_Parsed - workspace function (Log Analytics: law-sentinel-lab, category Sysmon)
+// Turns Sysmon events (Event table, EventData XML) into columns. No time filter - callers set it.
+// EventData structure: <DataItem><EventData><Data Name="X">value</Data>...</EventData></DataItem>
+// EventID 1 fills Image/CommandLine/ParentImage/User/IntegrityLevel;
+// EventID 13 fills TargetObject/Details.
+// Note: Sysmon may log ParentImage as "-" for some system processes.
+// v2: IngestTime column added. ingestion_time() is empty after mv-apply/project, so it is read
+// before the reshaping and carried through; rules use it for the newData dedup filter.
+Event
+| where Source == "Microsoft-Windows-Sysmon"
+| extend IngestTime = ingestion_time()
+| extend ed = parse_xml(EventData)
+| mv-apply d = ed.DataItem.EventData.Data on (
+    summarize Fields = make_bag(bag_pack(tostring(d["@Name"]), tostring(d["#text"])))
+  )
+| extend Image = tostring(Fields.Image),
+         CommandLine = tostring(Fields.CommandLine),
+         ParentImage = tostring(Fields.ParentImage),
+         User = tostring(Fields.User),
+         IntegrityLevel = tostring(Fields.IntegrityLevel),
+         TargetObject = tostring(Fields.TargetObject),
+         Details = tostring(Fields.Details)
+| project TimeGenerated, IngestTime, Computer, EventID, Image, CommandLine, ParentImage, User,
+          IntegrityLevel, TargetObject, Details
