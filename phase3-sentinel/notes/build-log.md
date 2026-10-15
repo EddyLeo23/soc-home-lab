@@ -252,3 +252,14 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - EID 13 volume is low because the Sysmon config only logs security-relevant registry paths
 - Plan: port Wazuh rule 100101 to KQL (Sysmon_Parsed, EID 13, TargetObject has \CurrentVersion\Run),
   test with Atomic Red Team T1547.001 + cleanup
+- 2026-10-15 17:19 (local): Atomic Red Team T1547.001 test #1 run as the plain reg command:
+  reg add HKCU\...\CurrentVersion\Run /v "Atomic Red Team" /d C:\Path\AtomicRedTeam.exe
+  (payload file does not exist, so nothing can execute at logon)
+- Cleanup: reg delete run immediately; Run key verified back to the original entries
+  (OneDrive, EpicGamesLauncher) - no persistence left on the endpoint
+- Sentinel received Sysmon EID 13 for the write: Image reg.exe, Details C:\Path\AtomicRedTeam.exe,
+  User <local-user> (username redacted)
+- Finding: Sysmon logs HKCU writes under HKU\<user-SID>\Software\..., not HKCU - the rule must
+  match the \CurrentVersion\Run part of TargetObject, not the hive prefix
+- The delete (Sysmon DeleteValue) is not collected: the DCR takes EID 1 and 13 only
+- Wazuh comparison (rule 100101) and the KQL logic test: pending
