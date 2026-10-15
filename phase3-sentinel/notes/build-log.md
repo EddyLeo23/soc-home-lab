@@ -227,3 +227,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   uses the real event time instead of the query window (incident #3 showed 15:08-16:08)
 - Query file: detections/T1110.001-repeated-failed-logons.v0.3.kql (v0.2 kept for history)
 - Re-test pending: new runas burst, check incident First/Last activity matches the attempt times
+- 2026-10-15 16:43 (local): v0.3 re-test - 7 wrong-password attempts with
+  'runas /user:DESKTOP-MLESSQ7\labtest cmd' (correct password never entered)
+  - Expected: new incident #4 within ~15 min; First/Last activity should match the attempts
+    (16:43, seconds apart), not a 1-hour query window
+  - Result: pending
