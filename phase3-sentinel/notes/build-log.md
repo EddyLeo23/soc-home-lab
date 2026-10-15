@@ -139,3 +139,14 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - First 72 h: 4624 x364, 4625 x2 (real mistyped logons - future T1110 benign case), 4688 x4387
 - Volume: ~3 MB/day total (SecurityEvent ~2.2 MB/day) - under 1% of the 0.5 GB/day cap
 - Cost check 2026-10-15: EUR 175.99 free credit untouched
+
+### Sysmon DCR (dcr-sysmon) - created in Azure Monitor (no Sentinel connector for Sysmon)
+- XPath: Microsoft-Windows-Sysmon/Operational, EventIDs 1 (process create) and 13 (registry value set)
+- Data lands in the Event table (Source = Microsoft-Windows-Sysmon), not SecurityEvent
+- Problem: DCR showed healthy ("Passed initial checks", all data flow validations OK) but 0 rows for 1 h+
+  - Local agent config (mcsconfig.latest.xml) contained the rule -> Azure side fine
+  - Agent log MonAgentHost.3.log: EvtSubscribe error 15007 "The specified channel could not be found"
+  - Cause: leading whitespace before the channel name in the XPath (copy/paste artefact)
+  - Fix: deleted and retyped the XPath -> Sysmon events arrived (31 in first check)
+- Lesson: portal validation checks the configuration, not whether the channel exists on the host;
+  the agent's own logs are the source of truth
