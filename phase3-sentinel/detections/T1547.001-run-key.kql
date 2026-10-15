@@ -1,0 +1,17 @@
+﻿// T1547.001 - Registry Run key persistence - rule query v1.0 (port of Wazuh rule 100101)
+// Rule settings: run every 10 min, lookback 1 h
+// Sysmon EID 13 (registry value set) where the target is a CurrentVersion\Run or RunOnce key.
+// Sysmon logs HKCU writes under HKU\<user-SID>\..., so the match is on the \CurrentVersion\Run part.
+// Alerts only on events ingested in the last run interval (newData) to avoid repeat alerts.
+// Needs Sysmon_Parsed v2 (IngestTime column).
+let lookback = 1h;
+let newData = 10m;        // = run frequency
+Sysmon_Parsed
+| where TimeGenerated > ago(lookback)
+| where IngestTime > ago(newData)
+| where EventID == 13
+| where TargetObject matches regex @"\\CurrentVersion\\Run(Once)?\\"
+| extend ValueName = tostring(split(TargetObject, "\\")[-1]),
+         AccountName = tostring(split(User, "\\")[-1]),
+         HostName = Computer
+| project TimeGenerated, IngestTime, HostName, AccountName, Image, ValueName, Details, TargetObject

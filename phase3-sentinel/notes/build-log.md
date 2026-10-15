@@ -269,3 +269,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   reshaping and carried through. Rules use it for the newData dedup filter
 - Verified: Sysmon_Parsed returns a filled IngestTime. Source: detections/Sysmon_Parsed.v2.kql
   (v1 kept as Sysmon_Parsed.kql for history)
+- 2026-10-15: Run-key rule query tested on the Atomic event (lookback/newData widened to 2 h):
+  1 row - Image reg.exe, ValueName Atomic Red Team, Details C:\Path\AtomicRedTeam.exe, IngestTime
+  ~1 min after the write (17:19 -> 17:20:23). Confirms Sysmon_Parsed v2 IngestTime works
+- Query saved as detections/T1547.001-run-key.kql (rule values: lookback 1 h, newData 10 min)
+- Rule not created yet. Wazuh 100101 comparison pending (Wazuh server was off)
