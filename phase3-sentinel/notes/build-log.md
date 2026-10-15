@@ -198,3 +198,16 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Finding: Security events were ingested ~30 s after the event (LatestIngest 15:15:36), much faster
   than the Azure Activity Log (~10-20 min). Rule: run every 10 min, lookback 1 h, newData 10 min
 - Saved as detections/T1110.001-repeated-failed-logons.v0.2.kql (replaces the bin()-based draft)
+
+### Analytics rule - Repeated failed logons (T1110.001)
+- Created 2026-10-15 as a Scheduled rule, severity Medium, enabled
+- MITRE: Credential Access, T1110 + T1110.001 (Password Guessing)
+- Query: detections/T1110.001-repeated-failed-logons.v0.2.kql (sliding 10-min window, threshold 5)
+- Schedule: every 10 min, lookback 1 h, alert when results > 0; newData filter (ingestion_time in the
+  last 10 min) prevents repeat alerts for the same burst
+- Entities: Account (Name = AccountName), Host (HostName = HostName); no IP entity (local logons)
+- Custom details: FailedCount, LogonProcesses, FailureTypes, LastFailure
+- Dynamic alert name and description with FailedCount, AccountName, HostName
+- Incident creation enabled, alert grouping off, no automated response yet
+- Screenshots: 07 entity mapping, 08 custom details, 09 scheduling
+- Next: end-to-end test (new runas burst) and check that an incident is created
