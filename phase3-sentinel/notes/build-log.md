@@ -153,3 +153,16 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Sysmon_Parsed saved as a workspace function (first save went in as a saved query by mistake -
   saved queries can't be called by name; re-saved with "Save as function")
 - Verified: Sysmon_Parsed returns parsed Image/CommandLine/IntegrityLevel in workspace Logs
+
+### M4 - T1110.001 Repeated failed logons
+- 2026-10-15: inspected real 4625 events on DESKTOP-MLESSQ7 (7 days): 5 failures, all <local-user>
+  (username redacted), mistyped PIN/password at the lock screen
+- Fields observed: LogonType 2 (interactive), Status 0xc000006d, SubStatus 0xc000006a (wrong password,
+  account exists), FailureReason stored unexpanded as %%2313, IpAddress 127.0.0.1,
+  LogonProcessName User32, AuthenticationPackageName Negotiate
+- Design decisions:
+  - Group by Computer + TargetUserName, threshold >= 5 in 10 min
+  - Translate SubStatus in KQL (FailureReason is not human-readable as stored)
+  - Entities: Account + Host; no IP entity for local logons (127.0.0.1)
+  - Expect runas test to show LogonProcessName seclogo vs User32 for real lock-screen typos
+- Benign baseline: 2 failures within the same minute (2026-10-15 13:36), below threshold
