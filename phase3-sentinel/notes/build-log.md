@@ -243,3 +243,12 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   (v0.3, detection as code; reviewed: no subscription/tenant ID, email, username or IP, workspace is a parameter)
 - T1110.001 complete: sliding-window threshold rule, validated on benign (2 failures) and attack
   (7 failures x3 bursts) data, 9-10 min attack-to-incident, tagged t1110.001-v1.0
+
+### M4 - T1547.001 Registry Run key persistence
+- 2026-10-15: baseline check of Sysmon_Parsed over 7 days: EventID 1 = 795 events, EventID 13 = 65
+  events (both arriving; screenshots/14-sysmon-eventid-counts.png)
+- Run-key baseline: zero EID 13 events with TargetObject containing \CurrentVersion\Run in 7 days
+  -> no benign Run-key writes to tune against yet; the test will be the first event
+- EID 13 volume is low because the Sysmon config only logs security-relevant registry paths
+- Plan: port Wazuh rule 100101 to KQL (Sysmon_Parsed, EID 13, TargetObject has \CurrentVersion\Run),
+  test with Atomic Red Team T1547.001 + cleanup
