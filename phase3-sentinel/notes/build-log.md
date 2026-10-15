@@ -223,3 +223,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Impacted assets: 1 device, 1 user (labtest) - entity mapping confirmed end to end
 - Known cosmetic issue: incident First/Last activity shows the query window (15:08-16:08), not the
   event times. Planned fix: set TimeGenerated = LastFailure in the rule query (v0.3)
+- 2026-10-15: rule updated to v0.3 - added '| extend TimeGenerated = LastFailure' so the alert/incident
+  uses the real event time instead of the query window (incident #3 showed 15:08-16:08)
+- Query file: detections/T1110.001-repeated-failed-logons.v0.3.kql (v0.2 kept for history)
+- Re-test pending: new runas burst, check incident First/Last activity matches the attempt times
