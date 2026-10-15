@@ -183,3 +183,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   - Expected in SecurityEvent: 7 x 4625, TargetUserName labtest, SubStatus 0xc000006a,
     LogonProcessName seclogo (to be verified)
   - Result: pending ingestion
+- 2026-10-15 attack-test query (threshold 5, 2 h lookback): 1 row - labtest, FailedCount 7,
+  first failure 15:14:39, all 7 inside one 10-min bin. No row for the real user (benign pair = 2)
+- Screenshot: screenshots/05-t1110-attack-query.png (no username/email/IP visible)
+- Note: draft is a query test only; the scheduled rule is not created yet
