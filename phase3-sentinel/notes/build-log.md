@@ -98,7 +98,7 @@
 
 \- \[x] M2 - Cloud detection validated (T1098.003) - 2026-10-13
 
-\- \[ ] M3 - Endpoint data verified
+\- \[x] M3 - Endpoint data verified - 2026-10-15
 
 \- \[ ] M4 - Core done
 
@@ -150,3 +150,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   - Fix: deleted and retyped the XPath -> Sysmon events arrived (31 in first check)
 - Lesson: portal validation checks the configuration, not whether the channel exists on the host;
   the agent's own logs are the source of truth
+- Sysmon_Parsed saved as a workspace function (first save went in as a saved query by mistake -
+  saved queries can't be called by name; re-saved with "Save as function")
+- Verified: Sysmon_Parsed returns parsed Image/CommandLine/IntegrityLevel in workspace Logs
