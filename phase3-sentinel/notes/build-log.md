@@ -232,3 +232,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   - Expected: new incident #4 within ~15 min; First/Last activity should match the attempts
     (16:43, seconds apart), not a 1-hour query window
   - Result: pending
+- v0.3 re-test result (screenshots/12-incident-4-v03-times.png): incident #4 created, First/Last activity
+  16:44:02 = LastFailure of the burst (v0.2 showed the 1 h query window) -> fix confirmed
+- Known cosmetic issue: alert description renders the FailureTypes array raw: [_Wrong password (...)_];
+  detection unaffected, left as is

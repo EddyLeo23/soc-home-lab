@@ -11,3 +11,4 @@
 | T1110.001 | 2 mistyped-PIN failures at the lock screen within the same minute (draft query, threshold 5 / 10 min) | No match | No row for the real user; the pair stays below threshold | Pass |
 | T1110.001 | 7 wrong passwords via runas against labtest - scheduled rule (threshold 5 / 10 min) | Incident created | Incident #3, Medium, ~9 min after the attack started (16:05 -> 16:14:08); dynamic title, Account + Host entities | Pass |
 | T1110.001 | Earlier 15:14 burst still inside the 1 h lookback at the next rule run - scheduled rule | No duplicate incident | Only incident #3 created; newData filter suppressed the old burst | Pass |
+| T1110.001 | 7 wrong passwords via runas against labtest - scheduled rule v0.3 (TimeGenerated = LastFailure) | Incident with real event time | Incident #4: First/Last activity 16:44:02 (matches the attempts), not the 1 h query window | Pass |
