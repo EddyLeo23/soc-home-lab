@@ -177,3 +177,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Finding: LogonProcessName is stored with a trailing space ("User32 ") - use has/trim() in filters
 - Known limitation: fixed bin(10m) can split a burst across a boundary (e.g. 3+3) and miss it;
   rule version to use a lookback window instead
+- 2026-10-15 15:13 (local): attack simulation - 7 wrong-password attempts with
+  'runas /user:DESKTOP-MLESSQ7\labtest cmd' (standard user, lockout threshold 10, no lockout expected)
+  - Correct password never entered, so no 4624 expected for labtest
+  - Expected in SecurityEvent: 7 x 4625, TargetUserName labtest, SubStatus 0xc000006a,
+    LogonProcessName seclogo (to be verified)
+  - Result: pending ingestion
