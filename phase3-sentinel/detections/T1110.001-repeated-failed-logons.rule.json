@@ -1,0 +1,90 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspace": {
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/beecaf97-2924-4d8d-989c-06197ef60881')]",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/beecaf97-2924-4d8d-989c-06197ef60881')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "kind": "Scheduled",
+            "apiVersion": "2023-12-01-preview",
+            "properties": {
+                "displayName": "Repeated failed logons (T1110.001)",
+                "description": "Detects 5 or more failed logons (event 4625) for the same account on the same host within a 10-minute sliding window. Possible password guessing or brute force. Validated with a controlled runas test.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "// T1110.001 - Repeated failed logons (sliding window) - rule query v0.3 (event time = LastFailure)\r\n// Rule settings: run every 10 min, lookback 1 h\r\n// Counts 4625 per Computer + TargetUserName in any 10-min sliding window (1-min steps).\r\n// Alerts only if at least one failure was ingested in the last run interval (newData),\r\n// so one burst does not alert on every run.\r\nlet threshold = 5;\r\nlet window = 10;          // minutes\r\nlet lookback = 1h;\r\nlet newData = 10m;        // = run frequency\r\nSecurityEvent\r\n| where TimeGenerated > ago(lookback)\r\n| where EventID == 4625\r\n| extend IngestTime = ingestion_time()\r\n| extend FailureType = case(\r\n    SubStatus =~ \"0xc000006a\", \"Wrong password (account exists)\",\r\n    SubStatus =~ \"0xc0000064\", \"User does not exist\",\r\n    SubStatus =~ \"0xc0000234\", \"Account locked out\",\r\n    SubStatus =~ \"0xc0000072\", \"Account disabled\",\r\n    strcat(\"Other (\", SubStatus, \")\"))\r\n| mv-expand k = range(0, window - 1, 1) to typeof(int)\r\n| extend WindowStart = bin(TimeGenerated, 1m) - 1m * k\r\n| summarize FailedCount = dcount(strcat(tostring(TimeGenerated), EventData)),\r\n            FirstFailure = min(TimeGenerated),\r\n            LastFailure = max(TimeGenerated),\r\n            LatestIngest = max(IngestTime),\r\n            LogonTypes = make_set(LogonType),\r\n            LogonProcesses = make_set(trim(\" \", LogonProcessName)),\r\n            FailureTypes = make_set(FailureType)\r\n            by Computer, TargetUserName, WindowStart\r\n| where FailedCount >= threshold\r\n| summarize FailedCount = max(FailedCount),\r\n            FirstFailure = min(FirstFailure),\r\n            LastFailure = max(LastFailure),\r\n            LatestIngest = max(LatestIngest),\r\n            LogonTypes = make_set(LogonTypes),\r\n            LogonProcesses = make_set(LogonProcesses),\r\n            FailureTypes = make_set(FailureTypes)\r\n            by Computer, TargetUserName\r\n| where LatestIngest > ago(newData)\r\n| extend AccountName = TargetUserName, HostName = Computer\r\n\r\n| extend TimeGenerated = LastFailure\r\n",
+                "queryFrequency": "PT10M",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "startTimeUtc": null,
+                "tactics": [
+                    "CredentialAccess"
+                ],
+                "techniques": [
+                    "T1110"
+                ],
+                "subTechniques": [
+                    "T1110.001"
+                ],
+                "alertRuleTemplateName": null,
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": false,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "SingleAlert"
+                },
+                "alertDetailsOverride": {
+                    "alertDisplayNameFormat": "{{FailedCount}} failed logons for {{AccountName}} on {{HostName}} (T1110.001)",
+                    "alertDescriptionFormat": "{{FailedCount}} failed logons in a 10-minute window. Failure type: {{FailureTypes}}",
+                    "alertDynamicProperties": []
+                },
+                "customDetails": {
+                    "FailedCount": "FailedCount",
+                    "LogonProcesses": "LogonProcesses",
+                    "FailureTypes": "FailureTypes",
+                    "LastFailure": "LastFailure"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "AccountName"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "Host",
+                        "fieldMappings": [
+                            {
+                                "identifier": "HostName",
+                                "columnName": "HostName"
+                            }
+                        ]
+                    }
+                ],
+                "sentinelEntitiesMappings": null,
+                "templateVersion": null
+            }
+        }
+    ]
+}

@@ -239,3 +239,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Detection latency (attempts 16:43-16:44 -> incident #4 linked 16:53:48): ~10 min; incident #3 ~9 min.
   Matches the 10-min schedule plus ~30 s ingestion. Screenshot: screenshots/13-incident-4-alert-details.png
 - Incidents #3 and #4 resolved: Informational, expected activity (security testing), tag controlled-test
+- 2026-10-15: rule exported as ARM template -> detections/T1110.001-repeated-failed-logons.rule.json
+  (v0.3, detection as code; reviewed: no subscription/tenant ID, email, username or IP, workspace is a parameter)
+- T1110.001 complete: sliding-window threshold rule, validated on benign (2 failures) and attack
+  (7 failures x3 bursts) data, 9-10 min attack-to-incident, tagged t1110.001-v1.0
