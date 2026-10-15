@@ -187,3 +187,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   first failure 15:14:39, all 7 inside one 10-min bin. No row for the real user (benign pair = 2)
 - Screenshot: screenshots/05-t1110-attack-query.png (no username/email/IP visible)
 - Note: draft is a query test only; the scheduled rule is not created yet
+- Attack fields confirmed (screenshots/06-t1110-attack-fields.png): labtest 7 failures over 25 s
+  (15:14:39 - 15:15:04), LogonType 2, LogonProcessName seclogo, SubStatus 0xc000006a (wrong password)
+- Finding: runas and lock-screen typing are both LogonType 2; they differ by LogonProcessName
+  (seclogo vs User32). Useful as context in the alert, but not used as a filter: a real attacker
+  would not necessarily use runas, so the rule counts all logon processes
