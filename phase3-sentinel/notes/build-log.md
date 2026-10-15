@@ -166,3 +166,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   - Entities: Account + Host; no IP entity for local logons (127.0.0.1)
   - Expect runas test to show LogonProcessName seclogo vs User32 for real lock-screen typos
 - Benign baseline: 2 failures within the same minute (2026-10-15 13:36), below threshold
+- 2026-10-15: created local test account labtest (standard user, group Users only) with
+  'net user labtest * /add' - interactive password prompt so the password never appears in
+  4688 command-line logs
+- Lockout policy on the endpoint: threshold 10, duration 10 min, observation window 10 min
+  -> test plan of 6-8 wrong passwords stays under the lockout limit (no 4740 expected)
+- Cleanup item: remove labtest at the end of the project (net user labtest /delete)
