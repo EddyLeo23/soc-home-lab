@@ -236,3 +236,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   16:44:02 = LastFailure of the burst (v0.2 showed the 1 h query window) -> fix confirmed
 - Known cosmetic issue: alert description renders the FailureTypes array raw: [_Wrong password (...)_];
   detection unaffected, left as is
+- Detection latency (attempts 16:43-16:44 -> incident #4 linked 16:53:48): ~10 min; incident #3 ~9 min.
+  Matches the 10-min schedule plus ~30 s ingestion. Screenshot: screenshots/13-incident-4-alert-details.png
+- Incidents #3 and #4 resolved: Informational, expected activity (security testing), tag controlled-test
