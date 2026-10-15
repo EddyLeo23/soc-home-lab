@@ -1,0 +1,20 @@
+﻿// T1110.001 - Repeated failed logons - DRAFT (logic test, threshold = 2 for testing)
+// Validated on real data 2026-10-15: returns the benign pair of failures (13:36, FailedCount = 2)
+let threshold = 2;
+SecurityEvent
+| where TimeGenerated > ago(7d)
+| where EventID == 4625
+| extend FailureType = case(
+    SubStatus =~ "0xc000006a", "Wrong password (account exists)",
+    SubStatus =~ "0xc0000064", "User does not exist",
+    SubStatus =~ "0xc0000234", "Account locked out",
+    SubStatus =~ "0xc0000072", "Account disabled",
+    strcat("Other (", SubStatus, ")"))
+| summarize FailedCount = count(),
+            FirstFailure = min(TimeGenerated),
+            LastFailure = max(TimeGenerated),
+            LogonTypes = make_set(LogonType),
+            LogonProcesses = make_set(LogonProcessName),
+            FailureTypes = make_set(FailureType)
+            by Computer, TargetUserName, bin(TimeGenerated, 10m)
+| where FailedCount >= threshold

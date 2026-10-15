@@ -172,3 +172,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Lockout policy on the endpoint: threshold 10, duration 10 min, observation window 10 min
   -> test plan of 6-8 wrong passwords stays under the lockout limit (no 4740 expected)
 - Cleanup item: remove labtest at the end of the project (net user labtest /delete)
+- Draft KQL logic test (threshold 2): returned 1 row = the benign pair (13:36:39-13:36:41,
+  FailedCount 2, LogonType 2, User32, wrong password); other 3 failures in separate windows, excluded
+- Finding: LogonProcessName is stored with a trailing space ("User32 ") - use has/trim() in filters
+- Known limitation: fixed bin(10m) can split a burst across a boundary (e.g. 3+3) and miss it;
+  rule version to use a lookback window instead
