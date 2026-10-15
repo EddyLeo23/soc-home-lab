@@ -217,3 +217,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
     '7 failed logons for labtest on DESKTOP-MLESSQ7 (T1110.001)'
   - Dedup check: the earlier 15:14 burst must NOT produce an incident (outside newData window)
   - Result: pending
+- Alert details checked (screenshots/11-incident-3-alert-details.png): FailedCount 7,
+  LogonProcesses seclogo, FailureTypes wrong password, LastFailure 14:05:39Z (= 16:05:39 local, UTC+2)
+  -> confirms incident #3 is the new burst, not the 15:14 one
+- Impacted assets: 1 device, 1 user (labtest) - entity mapping confirmed end to end
+- Known cosmetic issue: incident First/Last activity shows the query window (15:08-16:08), not the
+  event times. Planned fix: set TimeGenerated = LastFailure in the rule query (v0.3)
