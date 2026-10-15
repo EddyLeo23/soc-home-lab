@@ -274,3 +274,18 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   ~1 min after the write (17:19 -> 17:20:23). Confirms Sysmon_Parsed v2 IngestTime works
 - Query saved as detections/T1547.001-run-key.kql (rule values: lookback 1 h, newData 10 min)
 - Rule not created yet. Wazuh 100101 comparison pending (Wazuh server was off)
+
+### Analytics rule - Registry Run key persistence (T1547.001)
+- Created 2026-10-15 as a Scheduled rule, severity Medium, enabled
+- MITRE: Persistence + Privilege Escalation, T1547 + T1547.001
+- Query: detections/T1547.001-run-key.kql (Sysmon_Parsed v2, EID 13, TargetObject matches
+  \CurrentVersion\Run or RunOnce); port of Wazuh rule 100101
+- Schedule: every 10 min, lookback 1 h, alert when results > 0; newData filter on IngestTime
+  (last 10 min) prevents repeat alerts
+- Event grouping: one alert per event (each row is one registry write, so the title names each value)
+- Entities: Account (Name = AccountName), Host (HostName = HostName)
+- Custom details: ValueName, Payload (Details), Process (Image); TargetObject left out on purpose
+  (contains the user SID)
+- Incident creation enabled, alert grouping off, no automated response yet
+- Screenshots: 15 entity mapping, 16 custom details, 17 scheduling
+- Next: run the Atomic test again with the rule live, check the incident, then clean up
