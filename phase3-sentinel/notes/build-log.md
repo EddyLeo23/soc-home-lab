@@ -358,3 +358,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   detection parameters and blind spots, v0.4 stretch item with acceptance criteria
 - 2026-10-16: phase3-sentinel/README.md created (environment, detections, validation, results, lessons,
   limitations, status). Cost section left to be completed at close-out
+- 2026-10-16: README cost section completed: EUR 0.04 incurred this month, EUR 175.96 credit left (day 5).
+  Screenshot: screenshots/-azure-cost.png. Credit expires about 2026-11-10, before the Sentinel trial ends
+  (2026-11-12); spending limit on, never upgrade

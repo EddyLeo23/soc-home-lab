@@ -56,7 +56,7 @@ measurements on one endpoint, not performance figures. See comparison/wazuh-vs-s
 
 ## Cost
 
-To be completed at close-out. Controls in place: spending limit on, a budget with alerts, and the 0.5 GB/day cap.
+On 2026-10-16 (day 5 of the lab) the Azure portal showed EUR 0.04 incurred this month and EUR 175.96 of the EUR 175.99 free credit still available (screenshots/-azure-cost.png). No per-service breakdown was captured. The credit expires about 25 days after that date, shortly before the Sentinel trial ends. Controls in place: spending limit on (never upgraded), a budget with alerts, and the 0.5 GB/day cap. The final figure is added at close-out.
 
 ## Lessons learned
 
@@ -91,3 +91,4 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
