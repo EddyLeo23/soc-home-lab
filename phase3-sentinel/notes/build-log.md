@@ -314,3 +314,19 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   The two alerts came from consecutive runs (15:04, 15:14) with normal query windows; the 15:14 run
   should have filtered the 16-min-old event out. Cause not identified; not reproduced in the
   controlled test (1 write = 1 incident). #6 and #7 resolved as informational / expected activity
+
+### Wazuh vs Sentinel - T1110.001 findings (2026-10-16)
+- Wazuh covers failed logons with two BUILT-IN rules (no custom rule): 60122 (level 5, fires on every
+  single 4625; MITRE in the alert is T1531) and 60204 (level 10, T1110: frequency 8, timeframe 240 s,
+  same_field win.eventdata.ipAddress). 24 hits in 7 days: 22 x 60122 + 2 x 60204
+- 60122 counts: 19 for labtest, 3 for the real user's mistyped PINs (Sentinel saw 5 failures for the
+  real user in the same period: gap of 2 not explained). Screenshots 26, 27, 28
+- Wazuh alerts on benign single typos (level 5); the Sentinel rule is silent below 5 in 10 min
+- 60204 groups by source IP; for local logons the IP is always ::1, so all local accounts share one
+  counter. Sentinel groups by account + host
+- The 60204 alert counted events from two bursts 50 min apart: the agent delivered the queued events
+  within seconds (server was off) and Wazuh correlates by arrival time. Sentinel uses the event time
+- Untested: with frequency 8, a live burst of 7 failures may not trigger 60204
+- Sentinel rule gap: it maps only the target account. The raw 4625 also has the Subject account (who ran
+  runas) and the caller process (svchost.exe); not shown in the incident. Possible v1.1
+- The raw Wazuh alert JSON and the CSV exports contain the local username and user SID: not committed
