@@ -1,4 +1,4 @@
-﻿# Wazuh vs Microsoft Sentinel - same endpoint, three detections
+﻿# Wazuh vs Microsoft Sentinel - one endpoint, both SIEMs, three detections
 
 One Windows 11 laptop feeds both SIEMs. Sysmon and the Wazuh agent send to a self-hosted Wazuh manager (VM).
 Azure Arc with data collection rules (Security 4624/4625/4688/4740, Sysmon EID 1 and 13) sends to a Sentinel
@@ -15,23 +15,22 @@ the validation matrix and notes/build-log.md.
 
 ## Detection latency (attack to alert)
 
+Figures are observed in these tests (1-3 measurements each), not guaranteed or typical performance. Sentinel times are alert generation; the incident was created about 1 s later in the one case where both times were recorded (#9).
+
 | Test | Wazuh | Sentinel |
 |---|---|---|
-| T1110.001, live burst of 7 failures | first alert about 1 s | incident about 8.5 min (earlier bursts: about 9 and 10 min) |
-| T1547.001, Atomic test 1 | alert about 1 s (15:40:31 to 15:40:32) | incident about 9 min and about 13.5 min (two runs) |
-| T1098.003, role assignment | not applicable | incident about 13 min |
+| T1110.001, live burst of 7 failures | first alert about 1 s | alert about 8.5 min (earlier bursts: about 9 and 10 min) |
+| T1547.001, Atomic test 1 | alert about 1 s (15:40:31 to 15:40:32) | alert about 9 min and about 13.5 min (two runs) |
+| T1098.003, role assignment | not applicable | alert about 13 min |
 
-Wazuh evaluates events as they arrive. Sentinel's latency is mostly the 10-minute rule schedule: ingestion
-took about 30-60 s in these tests. A shorter schedule would lower it; this was not tested.
+Wazuh evaluates events as they arrive. In Sentinel, the 10-minute rule schedule contributes to the delay and ingestion took about 30-60 s, but together they do not fully explain the observed 8.5-13.5 min: the longest measurement exceeded the expected maximum of about 11 min by roughly 2.5 min, and the cause was not investigated. A shorter schedule might lower it; this was not tested.
 
 ## Behaviour on benign activity
 
 - Failed logons: Wazuh raised level-5 alerts on single mistyped logons of the real user (3 alerts in 7 days).
-  The Sentinel rule stayed silent below 5 failures. Sentinel saw 5 failures for the real user in the same
-  period, so the 2-alert gap is not explained.
+  The Sentinel rule stayed silent below 5 failures. Sentinel saw 5 failures for the real user in the same period, a discrepancy that is not explained (untested possibilities: events lost while the Wazuh server was off, or a different time range).
 - Run key: both SIEMs alerted on a legitimate Microsoft Edge updater write (RunOnce value, run as SYSTEM).
-  Neither rule has an allow-list. Sentinel also produced a duplicate incident for that one event (#7 after
-  #6). It did not reproduce in a controlled repeat and the cause was not identified.
+  Neither rule has an allow-list. Sentinel also produced two alerts and two incidents (#6 and #7) for that one event. It did not reproduce in a controlled repeat and the cause was not identified.
 
 ## Correlation
 
@@ -64,5 +63,6 @@ it is not like for like. Not tested: the High-severity path of T1098.003, and ne
 ## Takeaway
 
 Wazuh was faster and gave per-event alerts. Sentinel gave controllable correlation and visibility of cloud
-control-plane activity, at the cost of tuning and a 10-minute detection delay. Both need allow-lists for
+control-plane activity, at the cost of tuning and a detection delay of roughly 9-14 minutes in these tests. Both need allow-lists for
 legitimate Run-key writes. They complement each other here more than they compete.
+

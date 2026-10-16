@@ -342,8 +342,12 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   alert generated 17:13:15 -> incident #9 (~8.5 min from the start of the burst), First/Last activity
   17:04:52 (event time correct). Wazuh 60122 first alert 17:04:33 (~1 s). Screenshots 31, 32
 - Sentinel attack-to-incident across the three T1110.001 tests: 8.5-10 min; Wazuh: seconds
-  (a 10-min schedule is the main driver on the Sentinel side; ingestion is ~30-60 s)
+  (the 10-min schedule contributes; with ingestion of ~30-60 s it does not fully explain 8.5-13.5 min; not investigated)
 - Incident #9 resolved: Informational, expected activity (security testing), tag controlled-test
 - Next: write comparison/wazuh-vs-sentinel.md from these results
 - 2026-10-16: comparison/wazuh-vs-sentinel.md written (coverage, latency, benign behaviour, correlation,
   operations, limitations). Sources: validation matrix, screenshots 14-32, build log
+
+- 2026-10-16: comparison doc edited after review: figures labelled as observed measurements; schedule
+  no longer presented as the full explanation of Sentinel latency; alert/incident terms made consistent;
+  "2-alert gap" reworded as an unexplained discrepancy; title now "one endpoint, both SIEMs"
