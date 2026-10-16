@@ -19,11 +19,11 @@ Figures are observed in these tests (1-3 measurements each), not guaranteed or t
 
 | Test | Wazuh | Sentinel |
 |---|---|---|
-| T1110.001, live burst of 7 failures | first alert about 1 s | alert about 8.5 min (earlier bursts: about 9 and 10 min) |
+| T1110.001, live burst of 7 failures | first alert about 1 s | alert 8 min 43 s after the first failed logon (earlier bursts, timed from the start of my test: about 9 and 10 min) |
 | T1547.001, Atomic test 1 | alert about 1 s (15:40:31 to 15:40:32) | alert about 9 min and about 13.5 min (two runs) |
 | T1098.003, role assignment | not applicable | alert about 13 min |
 
-Wazuh evaluates events as they arrive. In Sentinel, the 10-minute rule schedule contributes to the delay and ingestion took about 30-60 s, but together they do not fully explain the observed 8.5-13.5 min: the longest measurement exceeded the expected maximum of about 11 min by roughly 2.5 min, and the cause was not investigated. A shorter schedule might lower it; this was not tested.
+Wazuh evaluates events as they arrive. In the live burst the Sentinel alert was generated 8 min 43 s after the first failed logon. The rule's 10-minute schedule is a plausible contributor to the observed delay, but the exact contribution of scheduling and processing was not isolated. Across all tests the longest measurement (about 13.5 min) exceeded the expected maximum of about 11 min (10 min schedule plus about 1 min ingestion) by roughly 2.5 min, and the cause was not investigated. A shorter schedule might lower the delay; this was not tested.
 
 ## Behaviour on benign activity
 
@@ -65,4 +65,5 @@ it is not like for like. Not tested: the High-severity path of T1098.003, and ne
 Wazuh was faster and gave per-event alerts. Sentinel gave controllable correlation and visibility of cloud
 control-plane activity, at the cost of tuning and a detection delay of roughly 9-14 minutes in these tests. Both need allow-lists for
 legitimate Run-key writes. They complement each other here more than they compete.
+
 

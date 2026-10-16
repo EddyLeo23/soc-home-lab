@@ -351,3 +351,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-16: comparison doc edited after review: figures labelled as observed measurements; schedule
   no longer presented as the full explanation of Sentinel latency; alert/incident terms made consistent;
   "2-alert gap" reworded as an unexplained discrepancy; title now "one endpoint, both SIEMs"
+- 2026-10-16: correction - live-burst latency is 8 min 43 s from the first failed logon (17:04:32) to alert
+  creation (17:13:15), not ~8.5 min; fixed in the matrix and the comparison (earlier log lines keep the
+  rounded figure). IR-001 finalized as the v0.3 artifact: Observed / Corroborated / Not established labels,
+  four distinct timeline times, event notes, severity vs disposition, four-step hypothetical response,
+  detection parameters and blind spots, v0.4 stretch item with acceptance criteria
