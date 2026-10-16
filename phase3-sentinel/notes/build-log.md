@@ -298,3 +298,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Known limitation: the rule has no allow-list - any Run/RunOnce write alerts (installers, updaters).
   Expected false-positive source; tuning idea: exclude known Image/ValueName pairs via a watchlist
 - Pending: export the rule as JSON, tag t1547.001-v1.0, Wazuh 100101 comparison
+- 2026-10-15: T1547.001 rule exported as ARM template -> detections/T1547.001-run-key.rule.json
+  (detection as code; reviewed: no subscription/tenant ID, email, username or SID; the only scan hit
+  was the @ of the KQL regex string)
+- T1547.001 complete: Run/RunOnce write detection on Sysmon EID 13, validated with Atomic test #1
+  (incident #5, ~9 min attack-to-incident), cleanup verified, tagged t1547.001-v1.0
+- Three core detections done: T1098.003, T1110.001, T1547.001

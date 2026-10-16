@@ -1,0 +1,90 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspace": {
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "id": "[concat(resourceId('Microsoft.OperationalInsights/workspaces/providers', parameters('workspace'), 'Microsoft.SecurityInsights'),'/alertRules/be1664bc-2f6c-483a-b0bf-848a3534f8d1')]",
+            "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/be1664bc-2f6c-483a-b0bf-848a3534f8d1')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+            "kind": "Scheduled",
+            "apiVersion": "2023-12-01-preview",
+            "properties": {
+                "displayName": "Registry Run key persistence (T1547.001)",
+                "description": "Detects a value written to a CurrentVersion\\Run or RunOnce registry key (Sysmon event 13), a common persistence technique. Port of Wazuh rule 100101. Validated with an Atomic Red Team test.",
+                "severity": "Medium",
+                "enabled": true,
+                "query": "// T1547.001 - Registry Run key persistence - rule query v1.0 (port of Wazuh rule 100101)\r\n// Rule settings: run every 10 min, lookback 1 h\r\n// Sysmon EID 13 (registry value set) where the target is a CurrentVersion\\Run or RunOnce key.\r\n// Sysmon logs HKCU writes under HKU\\<user-SID>\\..., so the match is on the \\CurrentVersion\\Run part.\r\n// Alerts only on events ingested in the last run interval (newData) to avoid repeat alerts.\r\n// Needs Sysmon_Parsed v2 (IngestTime column).\r\nlet lookback = 1h;\r\nlet newData = 10m;        // = run frequency\r\nSysmon_Parsed\r\n| where TimeGenerated > ago(lookback)\r\n| where IngestTime > ago(newData)\r\n| where EventID == 13\r\n| where TargetObject matches regex @\"\\\\CurrentVersion\\\\Run(Once)?\\\\\"\r\n| extend ValueName = tostring(split(TargetObject, \"\\\\\")[-1]),\r\n         AccountName = tostring(split(User, \"\\\\\")[-1]),\r\n         HostName = Computer\r\n| project TimeGenerated, IngestTime, HostName, AccountName, Image, ValueName, Details, TargetObject\r\n",
+                "queryFrequency": "PT10M",
+                "queryPeriod": "PT1H",
+                "triggerOperator": "GreaterThan",
+                "triggerThreshold": 0,
+                "suppressionDuration": "PT5H",
+                "suppressionEnabled": false,
+                "startTimeUtc": null,
+                "tactics": [
+                    "PrivilegeEscalation",
+                    "Persistence"
+                ],
+                "techniques": [
+                    "T1547"
+                ],
+                "subTechniques": [
+                    "T1547.001"
+                ],
+                "alertRuleTemplateName": null,
+                "incidentConfiguration": {
+                    "createIncident": true,
+                    "groupingConfiguration": {
+                        "enabled": false,
+                        "reopenClosedIncident": false,
+                        "lookbackDuration": "PT5H",
+                        "matchingMethod": "AllEntities",
+                        "groupByEntities": [],
+                        "groupByAlertDetails": [],
+                        "groupByCustomDetails": []
+                    }
+                },
+                "eventGroupingSettings": {
+                    "aggregationKind": "AlertPerResult"
+                },
+                "alertDetailsOverride": {
+                    "alertDisplayNameFormat": "Run key persistence: {{ValueName}} on {{HostName}} (T1547.001)",
+                    "alertDescriptionFormat": "{{ValueName}} set to {{Details}} by {{Image}} in a Run/RunOnce key.",
+                    "alertDynamicProperties": []
+                },
+                "customDetails": {
+                    "ValueName": "ValueName",
+                    "Payload": "Details",
+                    "Process": "Image"
+                },
+                "entityMappings": [
+                    {
+                        "entityType": "Account",
+                        "fieldMappings": [
+                            {
+                                "identifier": "Name",
+                                "columnName": "AccountName"
+                            }
+                        ]
+                    },
+                    {
+                        "entityType": "Host",
+                        "fieldMappings": [
+                            {
+                                "identifier": "HostName",
+                                "columnName": "HostName"
+                            }
+                        ]
+                    }
+                ],
+                "sentinelEntitiesMappings": null,
+                "templateVersion": null
+            }
+        }
+    ]
+}
