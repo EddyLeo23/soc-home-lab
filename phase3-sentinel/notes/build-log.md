@@ -364,3 +364,10 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 
 - 2026-10-16: fixed a naming mistake - the cost screenshot was committed as screenshots/-azure-cost.png
   (a formatting error left the number empty); renamed to screenshots/33-azure-cost.png and the README and this log updated
+- 2026-10-16 18:53 (local): Owner test for the High severity path of T1098.003 - Owner role assigned to
+  lab-test-user at resource-group scope (rg-sentinel-lab) with the 'all roles except privileged administrator
+  roles' condition, then removed immediately
+  - Expected: incident with Owner in the title and severity High (UAA tests #1 and #2 were Medium although UAA
+    is High in the rule's table: either they predate dynamic severity, or the override does not take effect;
+    alertSeverityColumnName = AlertSeverity is set in the exported rule)
+  - Result: pending
