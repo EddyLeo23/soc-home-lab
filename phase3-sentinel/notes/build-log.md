@@ -359,5 +359,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-16: phase3-sentinel/README.md created (environment, detections, validation, results, lessons,
   limitations, status). Cost section left to be completed at close-out
 - 2026-10-16: README cost section completed: EUR 0.04 incurred this month, EUR 175.96 credit left (day 5).
-  Screenshot: screenshots/-azure-cost.png. Credit expires about 2026-11-10, before the Sentinel trial ends
+  Screenshot: screenshots/33-azure-cost.png. Credit expires about 2026-11-10, before the Sentinel trial ends
   (2026-11-12); spending limit on, never upgrade
+
+- 2026-10-16: fixed a naming mistake - the cost screenshot was committed as screenshots/-azure-cost.png
+  (a formatting error left the number empty); renamed to screenshots/33-azure-cost.png and the README and this log updated
