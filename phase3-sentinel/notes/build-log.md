@@ -330,3 +330,11 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Sentinel rule gap: it maps only the target account. The raw 4625 also has the Subject account (who ran
   runas) and the caller process (svchost.exe); not shown in the incident. Possible v1.1
 - The raw Wazuh alert JSON and the CSV exports contain the local username and user SID: not committed
+- 2026-10-16 17:04 live burst (7 wrong passwords via runas against labtest, Wazuh server running):
+  - Wazuh 60122 (level 5): 7 alerts, 17:04:33 - 17:04:53 (first alert within seconds of the start);
+    screenshot 29
+  - Wazuh 60204 (Multiple Windows Logon Failures, level 10, frequency 8): did NOT fire (7 < 8);
+    screenshot 30
+  - Wazuh built-in rules therefore alert on each failure at level 5 (MITRE T1531 in the alert), but its
+    brute-force correlation missed a 7-failure burst that the Sentinel rule (threshold 5 / 10 min) catches
+  - Wazuh latency for this burst: seconds. Sentinel: pending (10-min schedule)
