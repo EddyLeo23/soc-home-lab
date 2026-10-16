@@ -21,3 +21,4 @@
 |---|---|---|---|---|
 | T1098.003 | Owner role assigned (High severity path of the dynamic severity logic) | Incident with High severity | Not tested - planned stretch item (needs an Owner assignment test) | Not tested |
 | T1110.001 | Failed logons over the network (LogonType 3) or RDP (LogonType 10) | Match | Not tested - only interactive logons (LogonType 2) were simulated; the rule counts all types | Not tested |
+| T1547.001 | Atomic test #1 repeated with the Wazuh server running (reg add, removed right after) - scheduled rule | One write gives one incident | Incident #8 only; one alert (generated 15:54 for an event at 15:40:31, ~13.5 min); Wazuh 100101 alert at 15:40:32 (~1 s) | Pass |

@@ -306,3 +306,11 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Three core detections done: T1098.003, T1110.001, T1547.001
 - 2026-10-16: validation matrix reviewed (12 rows, 5 columns, no sensitive data). Added a
   'Not yet tested' section: T1098.003 High severity path, T1110.001 network/RDP logon types
+- 2026-10-16 control test (Atomic T1547.001, 15:40, value deleted immediately, Run key verified clean):
+  Sentinel produced 1 alert / incident #8 (event 15:40:31 -> alert 15:54, ~13.5 min); Wazuh rule
+  100101 alerted at 15:40:32 (~1 s). Screenshots: 24 (Sentinel), 25 (Wazuh)
+- Latency comparison: Sentinel 9-14 min (10-min schedule + ~1 min ingestion), Wazuh ~1 s
+- Observed anomaly: incident #7 duplicated #6 (same Edge updater write, one record, ingested once).
+  The two alerts came from consecutive runs (15:04, 15:14) with normal query windows; the 15:14 run
+  should have filtered the 16-min-old event out. Cause not identified; not reproduced in the
+  controlled test (1 write = 1 incident). #6 and #7 resolved as informational / expected activity
