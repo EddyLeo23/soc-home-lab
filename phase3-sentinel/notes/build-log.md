@@ -345,3 +345,5 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   (a 10-min schedule is the main driver on the Sentinel side; ingestion is ~30-60 s)
 - Incident #9 resolved: Informational, expected activity (security testing), tag controlled-test
 - Next: write comparison/wazuh-vs-sentinel.md from these results
+- 2026-10-16: comparison/wazuh-vs-sentinel.md written (coverage, latency, benign behaviour, correlation,
+  operations, limitations). Sources: validation matrix, screenshots 14-32, build log
