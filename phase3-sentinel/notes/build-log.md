@@ -356,3 +356,5 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   rounded figure). IR-001 finalized as the v0.3 artifact: Observed / Corroborated / Not established labels,
   four distinct timeline times, event notes, severity vs disposition, four-step hypothetical response,
   detection parameters and blind spots, v0.4 stretch item with acceptance criteria
+- 2026-10-16: phase3-sentinel/README.md created (environment, detections, validation, results, lessons,
+  limitations, status). Cost section left to be completed at close-out
