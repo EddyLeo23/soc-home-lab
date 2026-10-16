@@ -14,3 +14,10 @@
 | T1110.001 | 7 wrong passwords via runas against labtest - scheduled rule v0.3 (TimeGenerated = LastFailure) | Incident with real event time | Incident #4: First/Last activity 16:44:02 (matches the attempts), not the 1 h query window | Pass |
 | T1547.001 | Atomic Red Team T1547.001 test #1 (reg add to HKCU Run key, removed right after) - scheduled rule | Incident created | Incident #5, Medium, ~9 min after the write (17:55:32 -> 18:04:32); title names the value; event time correct; Account + Host mapped | Pass |
 | T1547.001 | 7 days of normal use before the rule existed (OneDrive and Epic Games Launcher already in the Run key) - query on Sysmon EID 13 | No match | Zero Run-key writes in the 7-day baseline; no false positive observed. Not tested: installer or updater writes, which would alert by design | Pass (limited) |
+
+### Not yet tested
+
+| Detection | Test case | Expected | Actual | Outcome |
+|---|---|---|---|---|
+| T1098.003 | Owner role assigned (High severity path of the dynamic severity logic) | Incident with High severity | Not tested - planned stretch item (needs an Owner assignment test) | Not tested |
+| T1110.001 | Failed logons over the network (LogonType 3) or RDP (LogonType 10) | Match | Not tested - only interactive logons (LogonType 2) were simulated; the rule counts all types | Not tested |

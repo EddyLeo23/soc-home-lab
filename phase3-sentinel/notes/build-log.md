@@ -304,3 +304,5 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - T1547.001 complete: Run/RunOnce write detection on Sysmon EID 13, validated with Atomic test #1
   (incident #5, ~9 min attack-to-incident), cleanup verified, tagged t1547.001-v1.0
 - Three core detections done: T1098.003, T1110.001, T1547.001
+- 2026-10-16: validation matrix reviewed (12 rows, 5 columns, no sensitive data). Added a
+  'Not yet tested' section: T1098.003 High severity path, T1110.001 network/RDP logon types
