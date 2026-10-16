@@ -338,3 +338,10 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   - Wazuh built-in rules therefore alert on each failure at level 5 (MITRE T1531 in the alert), but its
     brute-force correlation missed a 7-failure burst that the Sentinel rule (threshold 5 / 10 min) catches
   - Wazuh latency for this burst: seconds. Sentinel: pending (10-min schedule)
+- 2026-10-16 17:04 live burst, both SIEMs running: Sentinel burst 17:04:32-17:04:52, ingested 17:05:19,
+  alert generated 17:13:15 -> incident #9 (~8.5 min from the start of the burst), First/Last activity
+  17:04:52 (event time correct). Wazuh 60122 first alert 17:04:33 (~1 s). Screenshots 31, 32
+- Sentinel attack-to-incident across the three T1110.001 tests: 8.5-10 min; Wazuh: seconds
+  (a 10-min schedule is the main driver on the Sentinel side; ingestion is ~30-60 s)
+- Incident #9 resolved: Informational, expected activity (security testing), tag controlled-test
+- Next: write comparison/wazuh-vs-sentinel.md from these results
