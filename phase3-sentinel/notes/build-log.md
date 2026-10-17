@@ -371,3 +371,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
     is High in the rule's table: either they predate dynamic severity, or the override does not take effect;
     alertSeverityColumnName = AlertSeverity is set in the exported rule)
   - Result: pending
+- 2026-10-17 18:43 (local): regression test for rule v1.1 - Contributor assigned to lab-test-user at
+  resource-group scope, then removed immediately. Expected: incident with Contributor in the title, Medium,
+  custom detail PrincipalType = User. Result: pending
