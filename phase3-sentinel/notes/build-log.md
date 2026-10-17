@@ -374,3 +374,15 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-17 18:43 (local): regression test for rule v1.1 - Contributor assigned to lab-test-user at
   resource-group scope, then removed immediately. Expected: incident with Contributor in the title, Medium,
   custom detail PrincipalType = User. Result: pending
+- 2026-10-17: T1098.003 rule v1.1 (text-only edit, query unchanged): the custom detail key RoleName was mapped
+  to the column PrincipalType (incident 10 showed RoleName: User for an Owner assignment); key renamed to
+  PrincipalType. Rule description updated to list all four roles in the table (it listed three).
+  Screenshot: screenshots/35-t1098-custom-details-v1.1.png (the file name has a dot, not an underscore)
+- Note: commit 79b6c5a (message: regression test executed, Contributor) also contains screenshots 34 and 35,
+  because git add swept them in; history not rewritten
+- 2026-10-16 Owner test result: incident 10, High, Owner in the title (screenshots/34-incident-10-owner-high.png,
+  email, IP and user label redacted). Event 18:52:58 -> incident created 19:14:15 = 21 min 17 s (earlier
+  T1098.003 tests: about 13 min); the difference is unexplained. The High path works with Owner. Incidents 1 and 2
+  (UAA, Medium although UAA is High in the table) most likely predate dynamic severity; not proven, UAA not retested
+- Matrix repaired: rows appended after the Not yet tested section had landed under that table; Pass rows moved to
+  the main table, Owner row added, the Owner not-tested row removed

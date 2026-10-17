@@ -25,7 +25,7 @@ them to KQL, validates each one with a controlled test, and compares Sentinel wi
 
 Each rule is a scheduled analytics rule with entity mapping and custom details, exported as an ARM template
 (detection as code) and tagged in git (t1098.003-v1.0, t1110.001-v1.0, t1547.001-v1.0). Earlier query versions
-are kept for history. The T1098.003 rule has dynamic severity; its High path is not yet tested.
+are kept for history. The T1098.003 rule has dynamic severity; its High path was validated with an Owner assignment (incident 10, High).
 
 ## How each rule was validated
 
@@ -38,7 +38,7 @@ one failure that was fixed, are in validation-matrix.md. Cases not yet tested ar
 
 | Rule | Observed time from action to Sentinel alert/incident |
 |---|---|
-| T1098.003 | about 13 min (two tests) |
+| T1098.003 | about 13 min (two tests) and 21 min 17 s (Owner test, event time to incident creation) |
 | T1110.001 | 8 min 43 s (live burst, first failed logon to alert); about 9 and 10 min in earlier tests |
 | T1547.001 | about 9 min and about 13.5 min (two separate tests) |
 
@@ -83,7 +83,7 @@ the cost after the trial was not evaluated.
 ## Status
 
 The three core detections, their validation, the comparison and the incident report are complete. Planned
-stretch items: T1082 and T1087 ports, a workbook, a playbook, an Owner-role test for the High severity path, and
+stretch items: T1082 and T1087 ports, a workbook, a playbook, and
 the v0.4 rule improvements described in the incident report. Test accounts and role assignments are removed at
 the end of the project.
 
@@ -91,5 +91,8 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
+
+
 
 
