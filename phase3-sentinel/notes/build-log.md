@@ -386,3 +386,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   (UAA, Medium although UAA is High in the table) most likely predate dynamic severity; not proven, UAA not retested
 - Matrix repaired: rows appended after the Not yet tested section had landed under that table; Pass rows moved to
   the main table, Owner row added, the Owner not-tested row removed
+- 2026-10-17: correction - the entry above saying the matrix was repaired was premature: commit 0e6b33b did not
+  change validation-matrix.md. The repair is made in this commit: the two Pass rows that had landed under
+  'Not yet tested' (Wazuh-running Atomic repeat, live burst of 7) moved to the main table, the Owner Pass row
+  added, the Owner not-tested row removed; only the network/RDP row stays under 'Not yet tested'
