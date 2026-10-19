@@ -18,6 +18,8 @@
 | T1110.001 | Live burst of 7 wrong passwords via runas against labtest with both SIEMs running (Sentinel rule v0.3 vs Wazuh built-in rules) | Sentinel incident; Wazuh alerts | Sentinel: incident #9, one incident, 8 min 43 s after the first failed logon (alert 17:13:15); Wazuh: 60122 x7 within seconds, 60204 did not fire (7 < frequency 8) | Pass |
 | T1098.003 | Owner assigned to lab-test-user at resource-group scope with the "all roles except privileged administrator roles" condition, removed immediately - scheduled rule | Incident with High severity | Incident 10, High, Owner in the title, 21 min 17 s after the event (18:52:58 -> 19:14:15) | Pass |
 | T1098.003 | Contributor assigned to lab-test-user at resource-group scope - scheduled rule v1.1 (custom detail key renamed to PrincipalType) | Incident with Medium severity and custom detail PrincipalType | Incident 13, Medium, Contributor in the title, PrincipalType: User, 10 min 13 s after the event (17:33:17 -> 17:43:30) | Pass |
+| T1110.001 | 4 wrong passwords via runas against labtest, below the threshold (boundary test, rule v0.3) | No alert | 4 x 4625 ingested (18:18:36); no alert and no incident after more than 25 minutes (reported by me; the empty alert result was not kept) | Pass |
+| T1110.001 | 5 wrong passwords via runas against labtest, exactly at the threshold, 31 minutes after the 4-failure burst (boundary test, rule v0.3) | Alert and incident | Incident 15, Medium, FailedCount 5, alert 14 min 0 s after the failures (18:49:35 -> 19:03:35), unexplained spread | Pass |
 
 ### Not yet tested
 

@@ -445,3 +445,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   until after 18:44 (two to three rule runs) the SecurityAlert query for the failed-logons rule returned no rows:
   4 failures stayed below the threshold of 5, no alert (reported by the lab owner; the empty result screen was not
   kept). Part 2 (exactly 5 failures, alert expected) follows
+- 2026-10-19: boundary test result for the failed-logons rule (v0.3): 4 failures (18:18) gave no alert; exactly 5
+  failures (18:49:35) gave incident 15, Medium, created 19:03:56 (alert 19:03:35, 14 min 0 s after the failures,
+  although the events were ingested at 18:49:57; the longest latency measured for this rule and not explained).
+  The threshold fires at 5 and not at 4: no off-by-one error. Screenshots: 42 (incident), 43 (alert details),
+  41 (the 5 events); 39 for the 4 events. Incident 15 resolved as informational / security testing
