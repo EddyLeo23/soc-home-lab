@@ -441,3 +441,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   or IP). Resolved as informational / expected activity, not tagged as a test
 - Tuning idea (not implemented): allow-list by Image path under Program Files\Microsoft\Edge* plus a ValueName that
   starts with msedge_cleanup_, and keep alerting on the same value name from any other path
+- 2026-10-19: boundary test, part 1 result - after 4 failed logons (about 18:18, ingested 18:18:36) and a wait
+  until after 18:44 (two to three rule runs) the SecurityAlert query for the failed-logons rule returned no rows:
+  4 failures stayed below the threshold of 5, no alert (reported by the lab owner; the empty result screen was not
+  kept). Part 2 (exactly 5 failures, alert expected) follows
