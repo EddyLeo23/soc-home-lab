@@ -395,3 +395,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   rejects a duplicate assignment. The rule never saw an event, so the rule v1.1 edit is still unvalidated. Fix:
   remove the leftover assignment, then repeat the test. The raw error JSON contains the subscription and tenant
   IDs, an email, a name and a public IP and is not committed
+- 2026-10-19: correction - the previous entry named a leftover Contributor assignment as the cause of the failed
+  test of 2026-10-17. The Activity log error (HTTP 409, RoleAssignmentExists) says a role assignment already
+  existed but not which role, and the current IAM list for rg-sentinel-lab shows lab-test-user with User Access
+  Administrator and no Contributor. The role used in the failed attempt is being checked from the request body
