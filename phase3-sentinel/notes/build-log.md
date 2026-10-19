@@ -406,3 +406,10 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Still to confirm: the alert custom detail reads PrincipalType (the v1.1 change); not yet seen
 - 2026-10-19: screenshots/38-incident-13-alert-details.png added (alert details of incident 13: Custom Details
   PrincipalType: User; email, username and user label redacted). Evidence for the rule v1.1 validation
+- 2026-10-19: rule v1.1 validated. Incident 13 (Contributor, Medium): the alert custom detail now reads
+  PrincipalType: User (incident 10 showed RoleName: User for the same column), and the portal rule description
+  lists the four roles. Event 17:33:17 -> incident created 17:43:30 = 10 min 13 s. T1098.003 latency so far:
+  10 min 13 s, about 13 min, 21 min 17 s - the spread is not explained
+- Still unexplained: the failed attempt of 2026-10-17 returned 409 RoleAssignmentExists although the IAM list
+  showed no Contributor for lab-test-user. The screenshot of the alert custom details (email and username
+  redacted) is committed separately

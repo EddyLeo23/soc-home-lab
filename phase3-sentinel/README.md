@@ -38,7 +38,7 @@ one failure that was fixed, are in validation-matrix.md. Cases not yet tested ar
 
 | Rule | Observed time from action to Sentinel alert/incident |
 |---|---|
-| T1098.003 | about 13 min (two tests) and 21 min 17 s (Owner test, event time to incident creation) |
+| T1098.003 | about 13 min (two tests), 21 min 17 s (Owner test) and 10 min 13 s (Contributor test on rule v1.1); event time to incident creation |
 | T1110.001 | 8 min 43 s (live burst, first failed logon to alert); about 9 and 10 min in earlier tests |
 | T1547.001 | about 9 min and about 13.5 min (two separate tests) |
 
@@ -91,6 +91,7 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
 
 
 
