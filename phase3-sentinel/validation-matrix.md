@@ -17,6 +17,7 @@
 | T1547.001 | Atomic test #1 repeated with the Wazuh server running (reg add, removed right after) - scheduled rule | One write gives one incident | Incident #8 only; one alert (generated 15:54 for an event at 15:40:31, ~13.5 min); Wazuh 100101 alert at 15:40:32 (~1 s) | Pass |
 | T1110.001 | Live burst of 7 wrong passwords via runas against labtest with both SIEMs running (Sentinel rule v0.3 vs Wazuh built-in rules) | Sentinel incident; Wazuh alerts | Sentinel: incident #9, one incident, 8 min 43 s after the first failed logon (alert 17:13:15); Wazuh: 60122 x7 within seconds, 60204 did not fire (7 < frequency 8) | Pass |
 | T1098.003 | Owner assigned to lab-test-user at resource-group scope with the "all roles except privileged administrator roles" condition, removed immediately - scheduled rule | Incident with High severity | Incident 10, High, Owner in the title, 21 min 17 s after the event (18:52:58 -> 19:14:15) | Pass |
+| T1098.003 | Contributor assigned to lab-test-user at resource-group scope - scheduled rule v1.1 (custom detail key renamed to PrincipalType) | Incident with Medium severity and custom detail PrincipalType | Incident 13, Medium, Contributor in the title, PrincipalType: User, 10 min 13 s after the event (17:33:17 -> 17:43:30) | Pass |
 
 ### Not yet tested
 

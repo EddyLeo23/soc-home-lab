@@ -413,3 +413,5 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Still unexplained: the failed attempt of 2026-10-17 returned 409 RoleAssignmentExists although the IAM list
   showed no Contributor for lab-test-user. The screenshot of the alert custom details (email and username
   redacted) is committed separately
+- 2026-10-19: the matrix row for the rule v1.1 test (incident 13, Contributor, Medium, PrincipalType: User,
+  10 min 13 s) was not included in commit 41e0ccf and is added in this commit
