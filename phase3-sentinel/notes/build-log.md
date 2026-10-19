@@ -415,3 +415,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   redacted) is committed separately
 - 2026-10-19: the matrix row for the rule v1.1 test (incident 13, Contributor, Medium, PrincipalType: User,
   10 min 13 s) was not included in commit 41e0ccf and is added in this commit
+- 2026-10-19: T1098.003 rule re-exported as v1.1 -> detections/T1098.003-privileged-role.rule.json (detection as code
+  now matches the live rule). Changes since v1.0, text only, query unchanged: custom detail key PrincipalType
+  (was RoleName), rule description lists the four roles. Reviewed: no subscription/tenant ID, email, IP or
+  username (the IP check first matched the template's contentVersion 1.0.0.0, a false positive of my check).
+  Validated by incident 13 (Contributor, Medium, PrincipalType: User). v1.0 stays reachable through the tag
+  t1098.003-v1.0

@@ -15,7 +15,7 @@
             "apiVersion": "2023-12-01-preview",
             "properties": {
                 "displayName": "Privileged Azure role assigned (T1098.003)",
-                "description": "Fires when Owner, Contributor or User Access Administrator is successfully assigned in Azure. Role is parsed from the Start event and joined to the Success event. Handles camelCase (Policy/ARM) and PascalCase (portal) request bodies.",
+                "description": "Fires when Owner, User Access Administrator, Role Based Access Control Administrator or Contributor is successfully assigned in Azure. Role is parsed from the Start event and joined to the Success event. Handles camelCase (Policy/ARM) and PascalCase (portal) request bodies.",
                 "severity": "Medium",
                 "enabled": true,
                 "query": "let PrivilegedRoles = datatable(RoleGuid:string, RoleName:string, AlertSeverity:string) [\r\n    \"8e3af657-a8ff-443c-a75c-2fe8c4bcb635\", \"Owner\", \"High\",\r\n    \"18d7d88d-d35e-4fb5-a5c3-7773c20a72d9\", \"User Access Administrator\", \"High\",\r\n    \"f58310d9-a9f6-439a-9e8d-f62e7b41a168\", \"Role Based Access Control Administrator\", \"High\",\r\n    \"b24988ac-6180-42a0-ab88-20f7382dd24c\", \"Contributor\", \"Medium\"\r\n];\r\nlet Started = AzureActivity\r\n    | where TimeGenerated > ago(1h)\r\n    | where OperationNameValue =~ \"MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE\"\r\n    | where ActivityStatusValue =~ \"Start\"\r\n    | extend Req = parse_json(tostring(Properties_d.requestbody))\r\n    | extend RoleDefId = coalesce(tostring(Req.properties.roleDefinitionId),\r\n                                  tostring(Req.Properties.RoleDefinitionId)),\r\n             PrincipalType = coalesce(tostring(Req.properties.principalType),\r\n                                      tostring(Req.Properties.PrincipalType)),\r\n             Entity = tostring(Properties_d.entity)\r\n    | extend RoleGuid = tostring(split(RoleDefId, \"/\")[-1])\r\n    | project CorrelationId, Entity, RoleGuid, PrincipalType;\r\nAzureActivity\r\n| where TimeGenerated > ago(1h)\r\n| where ingestion_time() > ago(15m)\r\n| where OperationNameValue =~ \"MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE\"\r\n| where ActivityStatusValue =~ \"Success\"\r\n| extend Entity = tostring(Properties_d.entity)\r\n| join kind=inner Started on CorrelationId, Entity\r\n| join kind=inner PrivilegedRoles on RoleGuid\r\n| project TimeGenerated, Caller, CallerIpAddress, RoleName, PrincipalType, ResourceGroup, AlertSeverity",
@@ -59,7 +59,7 @@
                     "alertDynamicProperties": []
                 },
                 "customDetails": {
-                    "RoleName": "PrincipalType"
+                    "PrincipalType": "PrincipalType"
                 },
                 "entityMappings": [
                     {
