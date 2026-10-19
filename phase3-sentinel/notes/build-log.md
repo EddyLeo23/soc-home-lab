@@ -399,3 +399,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   test of 2026-10-17. The Activity log error (HTTP 409, RoleAssignmentExists) says a role assignment already
   existed but not which role, and the current IAM list for rg-sentinel-lab shows lab-test-user with User Access
   Administrator and no Contributor. The role used in the failed attempt is being checked from the request body
+- 2026-10-19 17:33 (local): rule v1.1 regression test - Contributor assigned to lab-test-user at resource-group
+  scope (this time the assignment succeeded). Incident 13, Medium, Contributor in the title; event 17:33:17 ->
+  incident created 17:43:30 = 10 min 13 s (T1098.003 so far: 10 min 13 s, about 13 min, 21 min 17 s; spread not
+  explained). Screenshot: screenshots/37-incident-13-contributor-medium.png (email, IP and user label redacted)
+- Still to confirm: the alert custom detail reads PrincipalType (the v1.1 change); not yet seen
