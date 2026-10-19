@@ -390,3 +390,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   change validation-matrix.md. The repair is made in this commit: the two Pass rows that had landed under
   'Not yet tested' (Wazuh-running Atomic repeat, live burst of 7) moved to the main table, the Owner Pass row
   added, the Owner not-tested row removed; only the network/RDP row stays under 'Not yet tested'
+- 2026-10-19: cause of the failed Contributor assignment found in the Activity log error: HTTP 409 Conflict,
+  RoleAssignmentExists - lab-test-user still had Contributor at resource-group scope from the M2 tests, and Azure
+  rejects a duplicate assignment. The rule never saw an event, so the rule v1.1 edit is still unvalidated. Fix:
+  remove the leftover assignment, then repeat the test. The raw error JSON contains the subscription and tenant
+  IDs, an email, a name and a public IP and is not committed
