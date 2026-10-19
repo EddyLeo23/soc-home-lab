@@ -404,3 +404,5 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   incident created 17:43:30 = 10 min 13 s (T1098.003 so far: 10 min 13 s, about 13 min, 21 min 17 s; spread not
   explained). Screenshot: screenshots/37-incident-13-contributor-medium.png (email, IP and user label redacted)
 - Still to confirm: the alert custom detail reads PrincipalType (the v1.1 change); not yet seen
+- 2026-10-19: screenshots/38-incident-13-alert-details.png added (alert details of incident 13: Custom Details
+  PrincipalType: User; email, username and user label redacted). Evidence for the rule v1.1 validation
