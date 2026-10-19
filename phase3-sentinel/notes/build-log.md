@@ -433,3 +433,11 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   or IP). Resolved as informational / expected activity, not tagged as a test
 - Tuning idea (not implemented): allow-list by Image path under Program Files\Microsoft\Edge* plus a ValueName that
   starts with msedge_cleanup_, and keep alerting on the same value name from any other path
+- 2026-10-19: Run-key rule false positives, second batch (incidents 11 and 12): the Microsoft Edge/EdgeWebView
+  updater (setup.exe, user SYSTEM, version 155.0.4283.62) wrote an msedge_cleanup_{GUID} RunOnce value, a different
+  GUID from incidents 6 and 7 (Copilot installer, version .60). Same pattern: a browser update schedules cleanup of
+  old versions. Four incidents from two updater runs; the rule has no allow-list. Whether 11 and 12 are two alerts
+  for one write (as 6 and 7) was not verified. Screenshot: screenshots/40-fp-edgewebview-alert.png (no username
+  or IP). Resolved as informational / expected activity, not tagged as a test
+- Tuning idea (not implemented): allow-list by Image path under Program Files\Microsoft\Edge* plus a ValueName that
+  starts with msedge_cleanup_, and keep alerting on the same value name from any other path
