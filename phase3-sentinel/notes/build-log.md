@@ -421,3 +421,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   username (the IP check first matched the template's contentVersion 1.0.0.0, a false positive of my check).
   Validated by incident 13 (Contributor, Medium, PrincipalType: User). v1.0 stays reachable through the tag
   t1098.003-v1.0
+- 2026-10-19 ~18:18 (local): boundary test, part 1 - 4 wrong passwords via runas against labtest. The hunting query
+  returned exactly 4 x 4625 (SubStatus 0xc000006a, seclogo), all ingested at 18:18:36, so the events were
+  available for the rule to count. Expected result: no alert (threshold is 5). Screenshot:
+  screenshots/39-t1110-boundary-4-failures.png (no username or IP; labtest only). Result of the wait pending
