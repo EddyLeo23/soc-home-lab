@@ -527,3 +527,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   shows one user (the owner account), and the IAM pages show no 'Identity not found' entries. Entra keeps deleted users
   for 30 days unless they are deleted permanently. Screenshots not kept (account names). Remaining: final cost figure
   in the README, delete the two downloaded DCR files, check that the repo is public
+- 2026-10-20: cleanup step 5: final cost figure added to the README (EUR 0.04 incurred, EUR 175.96 of EUR 175.99 credit left,
+  21 days left; day 9 of the lab; screenshots/47-azure-cost-final.png). The README Status section now says the test accounts and their role
+  assignments were removed on 2026-10-20. Remaining: delete the two downloaded DCR files, check that the repo is public,
+  decide at the day-24 gate (2026-11-04) what to switch off

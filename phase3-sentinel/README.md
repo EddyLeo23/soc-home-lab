@@ -116,7 +116,7 @@ Checked on 2026-10-20 over the last 7 days (screenshots/44-telemetry-freshness.p
 
 ## Cost
 
-On 2026-10-16 (day 5 of the lab) the Azure portal showed EUR 0.04 incurred this month and EUR 175.96 of the EUR 175.99 free credit still available (screenshots/33-azure-cost.png). No per-service breakdown was captured. The credit expires about 25 days after that date, shortly before the Sentinel trial ends. Controls in place: spending limit on (never upgraded), a budget with alerts, and the 0.5 GB/day cap. The final figure is added at close-out.
+On 2026-10-16 (day 5 of the lab) the Azure portal showed EUR 0.04 incurred this month and EUR 175.96 of the EUR 175.99 free credit still available (screenshots/33-azure-cost.png). No per-service breakdown was captured. The credit expires about 25 days after that date, shortly before the Sentinel trial ends. Controls in place: spending limit on (never upgraded), a budget with alerts, and the 0.5 GB/day cap. On 2026-10-20 (day 9) the portal showed EUR 0.04 incurred this month and EUR 175.96 of the EUR 175.99 credit still available, with 21 days left to use it (screenshots/47-azure-cost-final.png). Azure cost data can lag by up to about a day, so the figure may not include the latest usage. The spending limit was never lifted and the account was not upgraded.
 
 ## Lessons learned
 
@@ -144,13 +144,13 @@ the cost after the trial was not evaluated.
 
 The three core detections, their validation, the comparison and the incident report are complete. Planned
 stretch items: T1082 and T1087 ports, a workbook, a playbook, and
-the v0.4 rule improvements described in the incident report. Test accounts and role assignments are removed at
-the end of the project.
+the v0.4 rule improvements described in the incident report. The test accounts (the local account and the Azure test user) and their role assignments were removed on 2026-10-20.
 
 ## Privacy
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
 
 
 
