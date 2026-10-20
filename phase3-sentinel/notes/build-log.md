@@ -523,3 +523,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-20: cleanup step 2: the local test account labtest was deleted with 'net user labtest /delete' (completed
   successfully); 'net user' afterwards lists no labtest. Screenshot not kept (it shows the local username). Next: the
   Azure test user lab-test-user and its role assignments
+- 2026-10-20: cleanup step 4: the Azure test user lab-test-user was deleted in Microsoft Entra ID. The Entra user list
+  shows one user (the owner account), and the IAM pages show no 'Identity not found' entries. Entra keeps deleted users
+  for 30 days unless they are deleted permanently. Screenshots not kept (account names). Remaining: final cost figure
+  in the README, delete the two downloaded DCR files, check that the repo is public
