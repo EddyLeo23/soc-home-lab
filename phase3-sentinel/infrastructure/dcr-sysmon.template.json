@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataCollectionRules_dcr_sysmon_name": {
+            "defaultValue": "dcr-sysmon",
+            "type": "String"
+        },
+        "workspaces_law_sentinel_lab_externalid": {
+            "defaultValue": "/subscriptions/<subscription-id>/resourceGroups/rg-sentinel-lab/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-lab",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Insights/dataCollectionRules",
+            "apiVersion": "2024-03-11",
+            "name": "[parameters('dataCollectionRules_dcr_sysmon_name')]",
+            "location": "northeurope",
+            "properties": {
+                "dataSources": {
+                    "windowsEventLogs": [
+                        {
+                            "streams": [
+                                "Microsoft-Event"
+                            ],
+                            "xPathQueries": [
+                                "Microsoft-Windows-Sysmon/Operational!*[System[(EventID=1 or EventID=13)]]"
+                            ],
+                            "name": "eventLogsDataSource"
+                        }
+                    ]
+                },
+                "destinations": {
+                    "logAnalytics": [
+                        {
+                            "workspaceResourceId": "[parameters('workspaces_law_sentinel_lab_externalid')]",
+                            "name": "la-1956452433"
+                        }
+                    ]
+                },
+                "dataFlows": [
+                    {
+                        "streams": [
+                            "Microsoft-Event"
+                        ],
+                        "destinations": [
+                            "la-1956452433"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

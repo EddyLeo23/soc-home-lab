@@ -512,3 +512,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   clock, order of commits only) and a Reconstruction details table added (what came from each incident, what I wrote or
   changed, what is not included). Disclosed: Run-key sample descriptions are my own wording, Account 'user session' is a
   placeholder, LogonTypes [2] for the 5-failure sample is assumed
+- 2026-10-20: data collection rules exported as ARM templates -> infrastructure/dcr-windows-security.template.json and
+  dcr-sysmon.template.json (found by content in Downloads). The subscription ID in the workspace defaultValue is
+  replaced by <subscription-id>; scanned for GUIDs, tenant ID, email, username and IPs (none left). Not included: the
+  rule-to-machine association, the Arc agent, the Sysmon install and config. The downloaded originals still contain the
+  subscription ID and are not committed

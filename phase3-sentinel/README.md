@@ -90,6 +90,7 @@ measurements on one endpoint, not performance figures. See comparison/wazuh-vs-s
 - investigations/IR-001-T1110.001-repeated-failed-logons.md - incident report with an evidence/inference table.
 - notes/build-log.md - step-by-step log, including mistakes and corrections.
 - notes/test-log.md and screenshots/ - evidence. Screenshots have the local username redacted.
+- infrastructure/ - the two data collection rules exported as ARM templates (subscription ID replaced by a placeholder).
 - sigma/, playbooks/, workbooks/ - reserved for stretch items.
 
 ## Telemetry reliability
@@ -150,6 +151,7 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
 
 
 

@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataCollectionRules_dcr_windows_security_name": {
+            "defaultValue": "dcr-windows-security",
+            "type": "String"
+        },
+        "workspaces_law_sentinel_lab_externalid": {
+            "defaultValue": "/subscriptions/<subscription-id>/resourceGroups/rg-sentinel-lab/providers/Microsoft.OperationalInsights/workspaces/law-sentinel-lab",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Insights/dataCollectionRules",
+            "apiVersion": "2024-03-11",
+            "name": "[parameters('dataCollectionRules_dcr_windows_security_name')]",
+            "location": "northeurope",
+            "tags": {
+                "createdBy": "Sentinel"
+            },
+            "kind": "Windows",
+            "properties": {
+                "dataSources": {
+                    "windowsEventLogs": [
+                        {
+                            "streams": [
+                                "Microsoft-SecurityEvent"
+                            ],
+                            "xPathQueries": [
+                                "Security!*[System[(EventID=4624 or EventID=4625 or EventID=4688 or EventID=4740)]]"
+                            ],
+                            "name": "eventLogsDataSource"
+                        }
+                    ]
+                },
+                "destinations": {
+                    "logAnalytics": [
+                        {
+                            "workspaceResourceId": "[parameters('workspaces_law_sentinel_lab_externalid')]",
+                            "name": "DataCollectionEvent"
+                        }
+                    ]
+                },
+                "dataFlows": [
+                    {
+                        "streams": [
+                            "Microsoft-SecurityEvent"
+                        ],
+                        "destinations": [
+                            "DataCollectionEvent"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
