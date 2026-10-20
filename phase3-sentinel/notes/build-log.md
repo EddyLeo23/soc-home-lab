@@ -493,3 +493,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   history): the T1098.003 rule runs every 15 minutes, the other two every 10; the boundary test latency (14 min 0 s) added
   to the T1110.001 rows; the range stated as 8 min 43 s to 21 min 17 s (about 9-21 minutes) instead of 9-14; the
   comparison no longer calls 13.5 min the longest measurement. Causes of the spread still not investigated
+- 2026-10-20: README-sentinel-extension.md revised after a review: overview split into purpose, method and limitation,
+  key finding limited to this test, labels described as my own assessment, run details (model IDs, prompts, commits),
+  missed vs wrongly flagged counts per run, an evidence audit of the 9 explanations read (6 unread), the placeholder
+  Account value 'user session' disclosed, output validation and untested prompt injection listed as limitations. Script,
+  samples and results untouched. Not done yet: Sentinel-specific prompt variant, gemma3:4b basic run, validation,
+  more varied alerts, audit of the other six explanations
