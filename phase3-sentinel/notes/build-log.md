@@ -475,3 +475,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   say Atomic Red Team); Edge/Copilot and EdgeWebView updater writes = benign (real updates). Incidents 10 and 13 were
   left out (email and public IP). Known limitation: the Phase 2 prompts name Sysmon fields (integrityLevel,
   currentDirectory, parentImage) that these alerts do not carry; the prompt will not be changed
+- 2026-10-20: AI-triage extension, step 2: phase2-pipeline/ai-triage/ai_triage_sentinel.py created as an edited copy of
+  ai_triage.py (the original is untouched). Changes: labels for the five Sentinel samples (committed before any run),
+  input folder samples-sentinel, results prefix results-sentinel-, utf-8-sig reading (the sample files carry a BOM),
+  the key note is stripped as well, and rule_id handles a plain rule name. Prompts unchanged, including the
+  'Wazuh alert' wording. No model run yet
