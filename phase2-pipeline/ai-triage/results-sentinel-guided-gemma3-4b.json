@@ -1,0 +1,57 @@
+[
+  {
+    "alert": "T1110-5-failed-logons",
+    "rule_id": "Repeated failed logons (T1110.001)",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "suspicious",
+    "match": true,
+    "model_reason": "Multiple failed logons (5) with the 'Wrong password (account exists)' failure type targeting the 'labtest' account within a short timeframe suggests a brute-force attack or credential stuffing attempt. The use of 'seclogo' further indicates a login attempt.",
+    "model_next_step": "Investigate the 'labtest' account for suspicious activity and review login logs for further details.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"Multiple failed logons (5) with the 'Wrong password (account exists)' failure type targeting the 'labtest' account within a short timeframe suggests a brute-force attack or credential stuffing attempt. The use of 'seclogo' further indicates a login attempt.\", \"next_step\": \"Investigate the 'labtest' account for suspicious activity and review login logs for further details.\"}"
+  },
+  {
+    "alert": "T1110-7-failed-logons",
+    "rule_id": "Repeated failed logons (T1110.001)",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "suspicious",
+    "match": true,
+    "model_reason": "Multiple failed logons with the 'Wrong password (account exists)' failure type, targeting the 'labtest' account, suggests a potential brute-force attack or credential stuffing attempt. The repeated nature of the failures elevates concern.",
+    "model_next_step": "Investigate the 'labtest' account for suspicious activity.",
+    "raw_response": "{\n  \"severity\": \"Medium\",\n  \"verdict\": \"suspicious\",\n  \"reason\": \"Multiple failed logons with the 'Wrong password (account exists)' failure type, targeting the 'labtest' account, suggests a potential brute-force attack or credential stuffing attempt. The repeated nature of the failures elevates concern.\",\n  \"next_step\": \"Investigate the 'labtest' account for suspicious activity.\"\n}"
+  },
+  {
+    "alert": "T1547-atomic-run-key",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "suspicious",
+    "match": true,
+    "model_reason": "The alert indicates `reg.exe` wrote a value ('Atomic Red Team') pointing to an executable (`AtomicRedTeam.exe`) from a potentially unusual location, and the account is a 'user session'. This suggests a possible persistence mechanism, particularly if the executable is associated with malicious activity.",
+    "model_next_step": "Investigate `AtomicRedTeam.exe` and its origin.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"The alert indicates `reg.exe` wrote a value ('Atomic Red Team') pointing to an executable (`AtomicRedTeam.exe`) from a potentially unusual location, and the account is a 'user session'. This suggests a possible persistence mechanism, particularly if the executable is associated with malicious activity.\", \"next_step\": \"Investigate `AtomicRedTeam.exe` and its origin.\"}"
+  },
+  {
+    "alert": "T1547-edge-copilot-updater",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "benign",
+    "match": false,
+    "model_reason": "The alert indicates `setup.exe` (Microsoft Copilot Installer) is writing to the registry via `NT AUTHORITY\\SYSTEM` with a high integrity level, and the payload includes `--system-level` and `--delete-old-versions` flags, suggesting potential persistence and data manipulation.",
+    "model_next_step": "Investigate the Copilot installation and its configuration.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"The alert indicates `setup.exe` (Microsoft Copilot Installer) is writing to the registry via `NT AUTHORITY\\\\SYSTEM` with a high integrity level, and the payload includes `--system-level` and `--delete-old-versions` flags, suggesting potential persistence and data manipulation.\", \"next_step\": \"Investigate the Copilot installation and its configuration.\"}"
+  },
+  {
+    "alert": "T1547-edge-webview-updater",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "benign",
+    "match": false,
+    "model_reason": "The alert indicates `setup.exe` (a legitimate Windows installer) is writing to the registry and using the `--delete-old-versions` flag, which is often associated with malicious cleanup activities. The use of `--system-level` and `--verbose-logging` further raises suspicion, as these options are frequently employed by malware to avoid detection.",
+    "model_next_step": "Investigate the EdgeWebView installation and recent activity on this endpoint.",
+    "raw_response": "{\"severity\": \"medium\", \"verdict\": \"suspicious\", \"reason\": \"The alert indicates `setup.exe` (a legitimate Windows installer) is writing to the registry and using the `--delete-old-versions` flag, which is often associated with malicious cleanup activities. The use of `--system-level` and `--verbose-logging` further raises suspicion, as these options are frequently employed by malware to avoid detection.\", \"next_step\": \"Investigate the EdgeWebView installation and recent activity on this endpoint.\"}"
+  }
+]

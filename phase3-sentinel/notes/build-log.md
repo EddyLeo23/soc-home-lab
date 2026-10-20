@@ -480,3 +480,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   input folder samples-sentinel, results prefix results-sentinel-, utf-8-sig reading (the sample files carry a BOM),
   the key note is stripped as well, and rule_id handles a plain rule name. Prompts unchanged, including the
   'Wazuh alert' wording. No model run yet
+- 2026-10-20: AI-triage extension, step 3: three runs on the five Sentinel alerts, committed as written by the script
+  (the My review sections are still placeholders). gemma3:4b guided 3/5 (false positives on both Edge updater writes,
+  citing a high integrity level that the alert does not carry); llama3.2:3b guided 3/5 (false negatives on both
+  failed-logon alerts); llama3.2:3b basic 2/5 (benign on everything, including the Atomic Run-key write, with an
+  invented scheduled task). Results files: results-sentinel-<variant>-<model>.md/.json in phase2-pipeline/ai-triage.
+  Five alerts, one run per configuration: an illustration, not a benchmark

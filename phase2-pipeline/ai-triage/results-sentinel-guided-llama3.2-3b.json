@@ -1,0 +1,57 @@
+[
+  {
+    "alert": "T1110-5-failed-logons",
+    "rule_id": "Repeated failed logons (T1110.001)",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "Failed logon attempt from a legitimate user account (TargetAccount: labtest) with a known failure type (Wrong password (account exists))",
+    "model_next_step": "Review user account activity for labtest",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"Failed logon attempt from a legitimate user account (TargetAccount: labtest) with a known failure type (Wrong password (account exists))\",\n  \"next_step\": \"Review user account activity for labtest\"\n}"
+  },
+  {
+    "alert": "T1110-7-failed-logons",
+    "rule_id": "Repeated failed logons (T1110.001)",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "Failed logon attempts are expected and logged by Windows, and the 'Repeated failed logons' rule is designed to detect this behavior.",
+    "model_next_step": "Monitor for further failed logon attempts",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"Failed logon attempts are expected and logged by Windows, and the 'Repeated failed logons' rule is designed to detect this behavior.\",\n  \"next_step\": \"Monitor for further failed logon attempts\" }"
+  },
+  {
+    "alert": "T1547-atomic-run-key",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "suspicious",
+    "expected_verdict": "suspicious",
+    "match": true,
+    "model_reason": "The use of reg.exe to write to a registry key is suspicious, as it could be used to persist, and the payload is a new executable (Atomic Red Team) that is not a built-in Windows tool.",
+    "model_next_step": "Analyze the Atomic Red Team executable for any suspicious activity or connections to known malicious actors.",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"suspicious\",\n  \"reason\": \"The use of reg.exe to write to a registry key is suspicious, as it could be used to persist, and the payload is a new executable (Atomic Red Team) that is not a built-in Windows tool.\",\n  \"next_step\": \"Analyze the Atomic Red Team executable for any suspicious activity or connections to known malicious actors.\"}"
+  },
+  {
+    "alert": "T1547-edge-copilot-updater",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "low",
+    "model_verdict": "benign",
+    "expected_verdict": "benign",
+    "match": true,
+    "model_reason": "The process 'setup.exe' is a legitimate installer for the Microsoft Copilot application, and the registry key modification is likely a necessary step for the application to function properly.",
+    "model_next_step": "Monitor the system for any further modifications to the registry key or changes in the Copilot application's behavior.",
+    "raw_response": "{\n  \"severity\": \"low\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The process 'setup.exe' is a legitimate installer for the Microsoft Copilot application, and the registry key modification is likely a necessary step for the application to function properly.\",\n  \"next_step\": \"Monitor the system for any further modifications to the registry key or changes in the Copilot application's behavior.\"}"
+  },
+  {
+    "alert": "T1547-edge-webview-updater",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "benign",
+    "expected_verdict": "benign",
+    "match": true,
+    "model_reason": "The process 'setup.exe' is a legitimate installer for Microsoft Edge, and the registry key persistence is likely a normal behavior for the application.",
+    "model_next_step": "Monitor system activity for any further suspicious activity related to Microsoft Edge",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The process 'setup.exe' is a legitimate installer for Microsoft Edge, and the registry key persistence is likely a normal behavior for the application.\",\n  \"next_step\": \"Monitor system activity for any further suspicious activity related to Microsoft Edge\" }"
+  }
+]

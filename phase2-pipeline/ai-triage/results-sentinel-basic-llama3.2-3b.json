@@ -1,0 +1,57 @@
+[
+  {
+    "alert": "T1110-5-failed-logons",
+    "rule_id": "Repeated failed logons (T1110.001)",
+    "model_severity": "medium",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The alert is triggered by a scheduled analytics rule, indicating a legitimate security measure. The failure type is 'Wrong password (account exists)', which suggests a user attempting to log in with an incorrect password.",
+    "model_next_step": "Verify user account activity to ensure it's a one-time mistake",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The alert is triggered by a scheduled analytics rule, indicating a legitimate security measure. The failure type is 'Wrong password (account exists)', which suggests a user attempting to log in with an incorrect password.\",\n  \"next_step\": \"Verify user account activity to ensure it's a one-time mistake\"\n}"
+  },
+  {
+    "alert": "T1110-7-failed-logons",
+    "rule_id": "Repeated failed logons (T1110.001)",
+    "model_severity": "medium",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The alert is triggered by a scheduled analytics rule, indicating a legitimate security measure. The failure type is 'Wrong password (account exists)', which suggests a user attempting to log in with an incorrect password.",
+    "model_next_step": "Verify user account activity to ensure no malicious activity is occurring",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The alert is triggered by a scheduled analytics rule, indicating a legitimate security measure. The failure type is 'Wrong password (account exists)', which suggests a user attempting to log in with an incorrect password.\",\n  \"next_step\": \"Verify user account activity to ensure no malicious activity is occurring\"\n}"
+  },
+  {
+    "alert": "T1547-atomic-run-key",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "benign",
+    "expected_verdict": "suspicious",
+    "match": false,
+    "model_reason": "The activity is related to a scheduled task (reg.exe) and a legitimate process (user session), which suggests a benign activity. The specific payload (Atomic Red Team) is not explicitly mentioned as being malicious.",
+    "model_next_step": "Verify the legitimacy of the reg.exe process and the Atomic Red Team executable",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The activity is related to a scheduled task (reg.exe) and a legitimate process (user session), which suggests a benign activity. The specific payload (Atomic Red Team) is not explicitly mentioned as being malicious.\",\n  \"next_step\": \"Verify the legitimacy of the reg.exe process and the Atomic Red Team executable\"\n}"
+  },
+  {
+    "alert": "T1547-edge-copilot-updater",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "benign",
+    "expected_verdict": "benign",
+    "match": true,
+    "model_reason": "The activity is likely benign as it involves a legitimate registry key persistence by a system process (setup.exe) and the payload is a standard installer command. The use of NT AUTHORITY\\SYSTEM as the account also suggests a system-level operation.",
+    "model_next_step": "Monitor the system for any further suspicious activity related to the Copilot application",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The activity is likely benign as it involves a legitimate registry key persistence by a system process (setup.exe) and the payload is a standard installer command. The use of NT AUTHORITY\\\\SYSTEM as the account also suggests a system-level operation.\",\n  \"next_step\": \"Monitor the system for any further suspicious activity related to the Copilot application\" }"
+  },
+  {
+    "alert": "T1547-edge-webview-updater",
+    "rule_id": "Registry Run key persistence (T1547.001)",
+    "model_severity": "medium",
+    "model_verdict": "benign",
+    "expected_verdict": "benign",
+    "match": true,
+    "model_reason": "The activity is likely benign as it involves the installation of Microsoft Edge, a legitimate application, and the 'delete-old-versions' flag is often used to remove outdated versions of the application.",
+    "model_next_step": "Verify the legitimacy of the Edge installation process and ensure it is not a side effect of a malicious activity.",
+    "raw_response": "{\n  \"severity\": \"medium\",\n  \"verdict\": \"benign\",\n  \"reason\": \"The activity is likely benign as it involves the installation of Microsoft Edge, a legitimate application, and the 'delete-old-versions' flag is often used to remove outdated versions of the application.\",\n  \"next_step\": \"Verify the legitimacy of the Edge installation process and ensure it is not a side effect of a malicious activity.\"}"
+  }
+]
