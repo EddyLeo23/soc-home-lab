@@ -1,0 +1,14 @@
+﻿{
+    "note":  "Reconstructed from the Sentinel alert\u0027s custom details and entities (no raw export). Labels are not in this file.",
+    "source":  "Microsoft Sentinel scheduled analytics rule",
+    "host":  "DESKTOP-MLESSQ7",
+    "rule":  "Registry Run key persistence (T1547.001)",
+    "severity":  "Medium",
+    "description":  "A value was written to a CurrentVersion Run or RunOnce registry key by reg.exe",
+    "fields":  {
+                   "ValueName":  "Atomic Red Team",
+                   "Account":  "user session",
+                   "Process":  "C:\\WINDOWS\\system32\\reg.exe",
+                   "Payload":  "C:\\Path\\AtomicRedTeam.exe"
+               }
+}

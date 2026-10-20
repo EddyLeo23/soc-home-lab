@@ -468,3 +468,10 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-20: README: Telemetry reliability section added (source freshness, the overnight silence of the laptop
   sources confirmed by the lab owner as the laptop being off, no alert on silence, ingestion volume, IngestTime).
   Corrected the volume figure in the Environment section (about 3 MB/day -> observed 1-14 MB/day)
+- 2026-10-20: AI-triage extension to Sentinel incidents, step 1 (samples and labels, no model run yet). Five alert
+  samples in phase2-pipeline/ai-triage/samples-sentinel/, reconstructed from the incident custom details (incidents 15,
+  9, 8, 6, 11); no username, IP, email or ID. Labels fixed BEFORE any run: T1110 5 and 7 failed logons = suspicious
+  (simulated password guessing); Atomic Red Team Run-key write = suspicious (an easy case: the value name and payload
+  say Atomic Red Team); Edge/Copilot and EdgeWebView updater writes = benign (real updates). Incidents 10 and 13 were
+  left out (email and public IP). Known limitation: the Phase 2 prompts name Sysmon fields (integrityLevel,
+  currentDirectory, parentImage) that these alerts do not carry; the prompt will not be changed

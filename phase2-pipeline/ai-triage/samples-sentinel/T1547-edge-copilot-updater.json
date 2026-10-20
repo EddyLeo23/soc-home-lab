@@ -1,0 +1,14 @@
+﻿{
+    "note":  "Reconstructed from the Sentinel alert\u0027s custom details and entities (no raw export). Labels are not in this file.",
+    "source":  "Microsoft Sentinel scheduled analytics rule",
+    "host":  "DESKTOP-MLESSQ7",
+    "rule":  "Registry Run key persistence (T1547.001)",
+    "severity":  "Medium",
+    "description":  "A value was written to a CurrentVersion Run or RunOnce registry key by setup.exe",
+    "fields":  {
+                   "ValueName":  "msedge_cleanup_{C50565E9-CCCF-44B4-BA15-5AC5C6569197}",
+                   "Account":  "NT AUTHORITY\\SYSTEM",
+                   "Process":  "C:\\Program Files (x86)\\Microsoft\\Copilot\\Application\\155.0.4283.60\\Installer\\setup.exe",
+                   "Payload":  "C:\\Program Files (x86)\\Microsoft\\Copilot\\Application\\155.0.4283.60\\Installer\\setup.exe --mscopilot --channel=stable --delete-old-versions --system-level --verbose-logging --on-logon"
+               }
+}

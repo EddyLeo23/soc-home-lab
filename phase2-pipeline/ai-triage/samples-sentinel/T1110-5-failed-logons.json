@@ -1,0 +1,21 @@
+﻿{
+    "note":  "Reconstructed from the Sentinel alert\u0027s custom details and entities (no raw export). Labels are not in this file.",
+    "source":  "Microsoft Sentinel scheduled analytics rule",
+    "host":  "DESKTOP-MLESSQ7",
+    "rule":  "Repeated failed logons (T1110.001)",
+    "severity":  "Medium",
+    "description":  "5 failed logons in a 10-minute window. Failure type: Wrong password (account exists)",
+    "fields":  {
+                   "LogonProcesses":  [
+                                          "seclogo"
+                                      ],
+                   "FailureTypes":  [
+                                        "Wrong password (account exists)"
+                                    ],
+                   "LogonTypes":  [
+                                      2
+                                  ],
+                   "FailedCount":  5,
+                   "TargetAccount":  "labtest"
+               }
+}
