@@ -459,3 +459,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   confirmed). Screenshot: screenshots/44-telemetry-freshness.png (table names, counts, times only)
 - Observation: the endpoint rules (T1110.001, T1547.001) cannot detect anything while the laptop sends nothing, and
   no rule alerts on the silence itself. Documented as a blind spot; a source-silent rule is a possible next step
+- 2026-10-20: billable ingestion over the last 7 days (Usage table): SecurityEvent 0.81-5.66 MB/day, Event (Sysmon)
+  4.39-10.69 MB/day; highest day 2026-10-18, about 14.3 MB in total, under 3% of the 0.5 GB/day cap. No rows for
+  2026-10-17 (a test day; cause not checked) or for the partial day of 2026-10-20. Screenshot:
+  screenshots/45-ingestion-volume.png
+- Correction: the earlier figure of about 3 MB/day in the README is out of date; the observed range once Sysmon was
+  flowing is about 6-14 MB/day. To fix in the close-out. Cost so far unchanged (EUR 0.04 on day 5)
