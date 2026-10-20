@@ -486,3 +486,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   failed-logon alerts); llama3.2:3b basic 2/5 (benign on everything, including the Atomic Run-key write, with an
   invented scheduled task). Results files: results-sentinel-<variant>-<model>.md/.json in phase2-pipeline/ai-triage.
   Five alerts, one run per configuration: an illustration, not a benchmark
+- 2026-10-20: AI-triage extension write-up moved to its own file: phase2-pipeline/ai-triage/README-sentinel-extension.md
+  (same content, own headings); README.md keeps a short pointer under 'Sentinel extension'. Findings still cover only
+  the reasoning read so far (three of five alerts per run). The My review placeholders in the result files are empty

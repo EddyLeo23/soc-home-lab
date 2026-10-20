@@ -1,4 +1,4 @@
-# AI-assisted alert triage with a local LLM
+﻿# AI-assisted alert triage with a local LLM
 
 An experiment in how far a small local language model can be trusted to triage Wazuh alerts. The script `ai_triage.py` sends saved alert excerpts to a model running locally through Ollama and asks for a structured verdict (severity, benign or suspicious, a reason, a next step). I then score the answers against my own labels and read the reasoning, because the reasoning matters more than the score.
 
@@ -59,3 +59,8 @@ Full model reasoning for each run is in the results files listed at the end.
 - `results-guided-llama3.2-3b.md` / `.json`: run 2.
 - `results-guided-gemma3-4b.md` / `.json`: run 3.
 - `samples/`: the reconstructed benign alert.
+
+## Sentinel extension
+
+The same experiment on five alerts from Microsoft Sentinel (Phase 3) is written up in [README-sentinel-extension.md](README-sentinel-extension.md).
+
