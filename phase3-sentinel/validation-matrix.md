@@ -26,3 +26,4 @@
 | Detection | Test case | Expected | Actual | Outcome |
 |---|---|---|---|---|
 | T1110.001 | Failed logons over the network (LogonType 3) or RDP (LogonType 10) | Match | Not tested - only interactive logons (LogonType 2) were simulated; the rule counts all types | Not tested |
+| T1098.003 | User Access Administrator or RBAC Administrator assigned (rule v1.1; both are High in the rule's role table) | Incident with High severity | Not tested. Owner (High) and Contributor (Medium) behaved as the table says, so the same is expected; incidents 1 and 2 were UAA tests on earlier rule versions | Not tested |

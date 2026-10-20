@@ -517,3 +517,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   replaced by <subscription-id>; scanned for GUIDs, tenant ID, email, username and IPs (none left). Not included: the
   rule-to-machine association, the Arc agent, the Sysmon install and config. The downloaded originals still contain the
   subscription ID and are not committed
+- 2026-10-20: cleanup step 1: the matrix's Not yet tested table now also lists User Access Administrator and RBAC
+  Administrator on rule v1.1 (not tested; the same lookup table gave the expected severity for Owner and Contributor).
+  Decision: no further role tests before removing the test accounts
