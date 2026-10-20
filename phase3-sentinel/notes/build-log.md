@@ -465,3 +465,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   screenshots/45-ingestion-volume.png
 - Correction: the earlier figure of about 3 MB/day in the README is out of date; the observed range once Sysmon was
   flowing is about 6-14 MB/day. To fix in the close-out. Cost so far unchanged (EUR 0.04 on day 5)
+- 2026-10-20: README: Telemetry reliability section added (source freshness, the overnight silence of the laptop
+  sources confirmed by the lab owner as the laptop being off, no alert on silence, ingestion volume, IngestTime).
+  Corrected the volume figure in the Environment section (about 3 MB/day -> observed 1-14 MB/day)

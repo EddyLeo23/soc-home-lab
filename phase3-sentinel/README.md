@@ -8,7 +8,7 @@ them to KQL, validates each one with a controlled test, and compares Sentinel wi
 
 - Azure free account with the spending limit on, a resource group for the lab, and a Log Analytics workspace
   with Microsoft Sentinel (North Europe; West Europe refused new customers and Spain Central did not support
-  Sentinel). Daily ingestion cap 0.5 GB/day; actual volume about 3 MB/day. Sentinel free trial.
+  Sentinel). Daily ingestion cap 0.5 GB/day; observed volume about 1-14 MB/day. Sentinel free trial.
 - One Windows 11 laptop onboarded to Azure Arc. Data collection rules send Security events 4624, 4625, 4688
   and 4740 (SecurityEvent) and Sysmon events 1 and 13 (Event table). The same Sysmon and Security events also
   feed a self-hosted Wazuh manager in a VM.
@@ -92,6 +92,27 @@ measurements on one endpoint, not performance figures. See comparison/wazuh-vs-s
 - notes/test-log.md and screenshots/ - evidence. Screenshots have the local username redacted.
 - sigma/, playbooks/, workbooks/ - reserved for stretch items.
 
+## Telemetry reliability
+
+Checked on 2026-10-20 over the last 7 days (screenshots/44-telemetry-freshness.png, 45-ingestion-volume.png):
+
+| Source | Events (7 days) | What it feeds |
+|---|---|---|
+| SecurityEvent (laptop) | 20,564 | T1110.001 |
+| Event, Sysmon (laptop) | 7,188 | T1547.001 |
+| AzureActivity (tenant) | 338 | T1098.003 |
+
+- Both laptop sources stopped at the same moment, 21:50 on 2026-10-19, and were still silent 974 minutes later,
+  because the laptop was off. AzureActivity kept arriving, since it does not depend on the laptop.
+- If a source stops, the rules that read it detect nothing, and no rule alerts on the silence itself. The laptop
+  rules (T1110.001, T1547.001) are blind whenever the laptop sends nothing; T1098.003 is blind if Azure activity
+  stops arriving. A rule on the last-event time per table would cover this; it is not built.
+- Billable ingestion over 7 days was about 1 to 14 MB per day (SecurityEvent 0.81-5.66 MB, Sysmon 4.39-10.69 MB),
+  under 3% of the 0.5 GB/day cap. The highest day was 2026-10-18. There was no billable ingestion recorded for
+  2026-10-17. If the cap were reached, collection would stop for the rest of the day; this was not tested.
+- Sysmon_Parsed v2 carries an IngestTime column (ingestion_time() is empty after the function reshapes the rows),
+  which the rules use to alert only on newly ingested events.
+
 ## Cost
 
 On 2026-10-16 (day 5 of the lab) the Azure portal showed EUR 0.04 incurred this month and EUR 175.96 of the EUR 175.99 free credit still available (screenshots/33-azure-cost.png). No per-service breakdown was captured. The credit expires about 25 days after that date, shortly before the Sentinel trial ends. Controls in place: spending limit on (never upgraded), a budget with alerts, and the 0.5 GB/day cap. The final figure is added at close-out.
@@ -129,6 +150,7 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
 
 
 
