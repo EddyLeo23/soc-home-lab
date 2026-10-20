@@ -507,3 +507,8 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - Found while reviewing: the Run-key sample descriptions in samples-sentinel are my own wording, not Sentinel's alert
   text (the real format is '{ValueName} set to {Details} by {Image} in a Run/RunOnce key.'); the README will list what
   was taken from the incidents and what I wrote
+- 2026-10-20: README-sentinel-extension.md: commit order stated with times (425c480 14:20 samples and labels as text,
+  6c2782b 14:26 script with labels in code, 778572b 14:41 results, f188f06 15:17 later script fix; committing computer's
+  clock, order of commits only) and a Reconstruction details table added (what came from each incident, what I wrote or
+  changed, what is not included). Disclosed: Run-key sample descriptions are my own wording, Account 'user session' is a
+  placeholder, LogonTypes [2] for the 5-failure sample is assumed

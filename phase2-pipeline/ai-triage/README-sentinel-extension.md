@@ -11,7 +11,7 @@ The aim is to see whether a small local model can help prioritise alerts, and to
 ## Method and labels
 
 - **Alerts (5):** reconstructed from the custom details and entities of Sentinel incidents, not raw exports: two bursts of failed logons (5 and 7) that I generated against a test account in a controlled lab, a Run-key write by Atomic Red Team test 1, and two Run-key writes by real Microsoft Edge updaters (Copilot and EdgeWebView installers running as SYSTEM).
-- **Reference labels:** the failed-logon bursts and the Atomic write are suspicious (I produced them); the two updater writes are benign (real updates). These are my own assessment from what I ran and observed, not independently validated. They were recorded in the build log (`425c480`) and in the script's `EXPECTED` table (`6c2782b`) before any model run; the results are in `778572b`.
+- **Reference labels:** the failed-logon bursts and the Atomic write are suspicious (I produced them); the two updater writes are benign (real updates). These are my own assessment from what I ran and observed, not independently validated. They were recorded in the build log in commit `425c480` (2026-10-20 14:20, with the samples), written into the script's `EXPECTED` table in `6c2782b` (14:26), and the results were committed in `778572b` (14:41), so the runs took place between the last two. Times come from the committing computer's clock (+0200) and show the order of the commits, not when I chose the labels. A small script fix (argument description, check for unlabelled samples) followed in `f188f06` (15:17), after the runs.
 - **Reconstruction details:** the key names in the samples (for example `TargetAccount`) are mine. For the Atomic alert I replaced my username with the placeholder `Account: "user session"`. That is not a Sentinel value, and two of the three runs quoted it in their reasoning. The Atomic alert is also an easy case: its value name and payload say "Atomic Red Team".
 - **Left out:** two incidents that carried my email and public IP.
 - **Prompts:** `basic` and `guided`, unchanged from the Wazuh experiment, including the "Wazuh alert" wording and the Sysmon field names (`integrityLevel`, `currentDirectory`, `parentImage`), which these alerts do not carry.
@@ -23,6 +23,18 @@ The aim is to see whether a small local model can help prioritise alerts, and to
 | 3 | `llama3.2:3b` (a80c4f17acd5) | basic |
 
 All runs: temperature 0, 2026-10-20, through Ollama on a local machine.
+
+## Reconstruction details
+
+The five samples are rebuilt from what the Sentinel incident pages showed, not from raw events. The wrapper (`source`, `host`, `rule`, `severity`, `description`, `fields`) is my structure, and the `note` key is removed by the script before the model sees the alert. None of the samples carries a time, so a model cannot judge how fast the failures happened.
+
+| Sample | Incident | Taken from the incident | Written or changed by me | Not included |
+|---|---|---|---|---|
+| 5 failed logons | 15 | rule name, severity, FailedCount, LogonProcesses, FailureTypes, account name | description sentence (the alert text with its brackets removed); key name `TargetAccount`; `LogonTypes: [2]`, which I assumed (seen in the query results of incident 9, not checked for 15) | first and last failure times, source address, incident title |
+| 7 failed logons | 9 | the same, with FailedCount 7 and LogonTypes [2] seen in the query results | description sentence; key name `TargetAccount` | the same |
+| Atomic Run-key write | 8 | rule name, severity, ValueName, Payload, Process | description sentence in my own wording (the real alert text is "{ValueName} set to {Details} by {Image} in a Run/RunOnce key."); `Account: "user session"`, a placeholder for my username that is not a Sentinel value; key name `Account` | write time, user name |
+| Edge Copilot updater write | 6 | rule name, severity, ValueName, Payload, Process, account SYSTEM | description sentence in my own wording; key name `Account` | write time |
+| Edge WebView updater write | 11 | the same as the Copilot sample | description sentence in my own wording; key name `Account` | write time |
 
 ## Results
 
@@ -89,3 +101,4 @@ I read the explanations for the 5-failed-logons, Atomic and Copilot alerts in ea
 - `results-sentinel-guided-llama3.2-3b.md` / `.json`: run 2.
 - `results-sentinel-basic-llama3.2-3b.md` / `.json`: run 3.
 - `samples-sentinel/`: the five reconstructed alerts (the labels are in the script, not in these files).
+
