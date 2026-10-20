@@ -499,3 +499,11 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   Account value 'user session' disclosed, output validation and untested prompt injection listed as limitations. Script,
   samples and results untouched. Not done yet: Sentinel-specific prompt variant, gemma3:4b basic run, validation,
   more varied alerts, audit of the other six explanations
+- 2026-10-20: ai_triage_sentinel.py small fixes made AFTER the runs (results unchanged; behaviour for the five labelled
+  samples unchanged): the argparse description says Sentinel instead of Wazuh, and the script exits before scoring if a
+  sample has no label in EXPECTED (before, an unlabelled sample was scored as a mismatch). The results were produced by
+  the earlier version (6c2782b). Output validation (required keys, permitted values) is not added here: it goes into the
+  next version with the Sentinel-specific prompt, which needs new runs anyway
+- Found while reviewing: the Run-key sample descriptions in samples-sentinel are my own wording, not Sentinel's alert
+  text (the real format is '{ValueName} set to {Details} by {Image} in a Run/RunOnce key.'); the README will list what
+  was taken from the incidents and what I wrote

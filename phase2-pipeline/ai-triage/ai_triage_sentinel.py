@@ -121,7 +121,7 @@ def cell(text):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Triage saved Wazuh alerts with a local LLM.")
+    parser = argparse.ArgumentParser(description="Triage saved Sentinel alerts with a local LLM (a Sentinel adaptation of ai_triage.py).")
     parser.add_argument("--variant", choices=sorted(VARIANTS), required=True,
                         help="which prompt to use")
     parser.add_argument("--model", default=DEFAULT_MODEL, help="Ollama model name")
@@ -140,6 +140,11 @@ def main():
         print("No alert files found. Run this from inside the soc-home-lab repo.")
         sys.exit(1)
 
+    missing = [label for label, _ in samples if label not in EXPECTED]
+    if missing:
+        print("Samples without a reference label in EXPECTED: " + ", ".join(missing))
+        print("Add the label first; unlabelled samples are not scored as mismatches.")
+        sys.exit(1)
     prompt = VARIANTS[args.variant]
     results = []
     for label, path in samples:
