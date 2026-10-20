@@ -450,3 +450,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
   although the events were ingested at 18:49:57; the longest latency measured for this rule and not explained).
   The threshold fires at 5 and not at 4: no off-by-one error. Screenshots: 42 (incident), 43 (alert details),
   41 (the 5 events); 39 for the 4 events. Incident 15 resolved as informational / security testing
+- 2026-10-19: README: Architecture section added (Mermaid diagram: endpoint, Azure Arc and data collection rules,
+  Log Analytics, Sysmon_Parsed v2, three analytics rules, incidents; Azure Activity log for T1098.003; Wazuh as the
+  comparison path)

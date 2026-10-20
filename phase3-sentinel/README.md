@@ -15,6 +15,44 @@ them to KQL, validates each one with a controlled test, and compares Sentinel wi
 - Workspace function Sysmon_Parsed (v2) turns Sysmon EventData XML into columns and carries an IngestTime column.
 - Work was done in the Defender portal; functions were saved from the workspace Logs page.
 
+## Architecture
+
+```mermaid
+flowchart LR
+  subgraph EP["Windows 11 laptop (one endpoint)"]
+    SEC["Security log<br/>4624, 4625, 4688, 4740"]
+    SYS["Sysmon<br/>events 1 and 13"]
+    WA["Wazuh agent"]
+  end
+  subgraph AZ["Azure (free account, North Europe)"]
+    ARC["Azure Arc agent +<br/>data collection rules"]
+    LAW["Log Analytics workspace<br/>SecurityEvent, Event, AzureActivity"]
+    FN["Sysmon_Parsed v2<br/>workspace function"]
+    RULES["3 scheduled analytics rules<br/>T1098.003, T1110.001, T1547.001"]
+    INC["Sentinel incidents<br/>(Defender portal)"]
+  end
+  ACT["Azure Activity log<br/>(role assignments)"]
+  subgraph WZ["Wazuh (comparison path, local VM)"]
+    MGR["Wazuh manager<br/>custom rules 100100, 100101<br/>built-in 60122, 60204"]
+    ALR["Wazuh alerts"]
+  end
+  SEC --> ARC
+  SYS --> ARC
+  ARC --> LAW
+  ACT --> LAW
+  LAW --> FN
+  FN --> RULES
+  LAW --> RULES
+  RULES --> INC
+  SEC --> WA
+  SYS --> WA
+  WA --> MGR
+  MGR --> ALR
+```
+
+The same Security and Sysmon events feed both paths. T1098.003 reads the Azure Activity log, which only Sentinel
+receives; the endpoint rules (T1110.001, T1547.001) can be compared with Wazuh.
+
 ## Detections
 
 | Rule | MITRE | Data | Files |
@@ -91,6 +129,7 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
 
 
 
