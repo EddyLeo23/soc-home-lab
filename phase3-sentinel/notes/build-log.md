@@ -453,3 +453,9 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-19: README: Architecture section added (Mermaid diagram: endpoint, Azure Arc and data collection rules,
   Log Analytics, Sysmon_Parsed v2, three analytics rules, incidents; Azure Activity log for T1098.003; Wazuh as the
   comparison path)
+- 2026-10-20 ~15:05 (local): telemetry freshness check (7 days): AzureActivity 338 events, last 13:48 (16 min
+  earlier); Event (Sysmon) 7188, last 2026-10-19 21:50; SecurityEvent 20564, last 2026-10-19 21:50 (974 min earlier).
+  Both laptop sources stopped at the same time, consistent with the laptop being off or offline overnight (not
+  confirmed). Screenshot: screenshots/44-telemetry-freshness.png (table names, counts, times only)
+- Observation: the endpoint rules (T1110.001, T1547.001) cannot detect anything while the laptop sends nothing, and
+  no rule alerts on the silence itself. Documented as a blind spot; a source-silent rule is a possible next step
