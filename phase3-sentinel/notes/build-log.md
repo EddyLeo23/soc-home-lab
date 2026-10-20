@@ -520,3 +520,6 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-20: cleanup step 1: the matrix's Not yet tested table now also lists User Access Administrator and RBAC
   Administrator on rule v1.1 (not tested; the same lookup table gave the expected severity for Owner and Contributor).
   Decision: no further role tests before removing the test accounts
+- 2026-10-20: cleanup step 2: the local test account labtest was deleted with 'net user labtest /delete' (completed
+  successfully); 'net user' afterwards lists no labtest. Screenshot not kept (it shows the local username). Next: the
+  Azure test user lab-test-user and its role assignments
