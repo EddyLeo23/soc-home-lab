@@ -489,3 +489,7 @@ Endpoint: Windows 11 Home Single Language - Arc/AMA support uncertain, VM fallba
 - 2026-10-20: AI-triage extension write-up moved to its own file: phase2-pipeline/ai-triage/README-sentinel-extension.md
   (same content, own headings); README.md keeps a short pointer under 'Sentinel extension'. Findings still cover only
   the reasoning read so far (three of five alerts per run). The My review placeholders in the result files are empty
+- 2026-10-20: latency wording corrected in the README and the comparison (earlier log lines keep their wording as
+  history): the T1098.003 rule runs every 15 minutes, the other two every 10; the boundary test latency (14 min 0 s) added
+  to the T1110.001 rows; the range stated as 8 min 43 s to 21 min 17 s (about 9-21 minutes) instead of 9-14; the
+  comparison no longer calls 13.5 min the longest measurement. Causes of the spread still not investigated

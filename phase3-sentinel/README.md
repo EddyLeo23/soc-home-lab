@@ -76,8 +76,8 @@ one failure that was fixed, are in validation-matrix.md. Cases not yet tested ar
 
 | Rule | Observed time from action to Sentinel alert/incident |
 |---|---|
-| T1098.003 | about 13 min (two tests), 21 min 17 s (Owner test) and 10 min 13 s (Contributor test on rule v1.1); event time to incident creation |
-| T1110.001 | 8 min 43 s (live burst, first failed logon to alert); about 9 and 10 min in earlier tests |
+| T1098.003 | about 13 min (two tests), 21 min 17 s (Owner test) and 10 min 13 s (Contributor test on rule v1.1); event time to incident creation; this rule runs every 15 minutes, the other two every 10 |
+| T1110.001 | 8 min 43 s (live burst, first failed logon to alert), 14 min 0 s (boundary test with 5 failures); about 9 and 10 min in earlier tests |
 | T1547.001 | about 9 min and about 13.5 min (two separate tests) |
 
 Wazuh raised its alerts in about a second in the tests where its server was running. These are single
@@ -150,6 +150,7 @@ the end of the project.
 
 No subscription or tenant IDs, email addresses, public IPs or local usernames are published. Raw alerts and
 exports contain the local username and user SID and are kept out of the repo.
+
 
 
 

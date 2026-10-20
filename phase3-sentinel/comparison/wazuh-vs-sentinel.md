@@ -19,11 +19,11 @@ Figures are observed in these tests (1-3 measurements each), not guaranteed or t
 
 | Test | Wazuh | Sentinel |
 |---|---|---|
-| T1110.001, live burst of 7 failures | first alert about 1 s | alert 8 min 43 s after the first failed logon (earlier bursts, timed from the start of my test: about 9 and 10 min) |
+| T1110.001, live burst of 7 failures | first alert about 1 s | alert 8 min 43 s after the first failed logon (earlier bursts, timed from the start of my test: about 9 and 10 min; boundary test with 5 failures: 14 min 0 s) |
 | T1547.001, Atomic test 1 | alert about 1 s (15:40:31 to 15:40:32) | alert about 9 min and about 13.5 min (two runs) |
-| T1098.003, role assignment | not applicable | incident created about 13 min (two tests), 21 min 17 s (Owner test) and 10 min 13 s (v1.1 Contributor test) |
+| T1098.003, role assignment | not applicable | incident created about 13 min (two tests), 21 min 17 s (Owner test) and 10 min 13 s (v1.1 Contributor test); this rule runs every 15 minutes, the other two every 10 |
 
-Wazuh evaluates events as they arrive. In the live burst the Sentinel alert was generated 8 min 43 s after the first failed logon. The rule's 10-minute schedule is a plausible contributor to the observed delay, but the exact contribution of scheduling and processing was not isolated. Across all tests the longest measurement (about 13.5 min) exceeded the expected maximum of about 11 min (10 min schedule plus about 1 min ingestion) by roughly 2.5 min, and the cause was not investigated. A shorter schedule might lower the delay; this was not tested.
+Wazuh evaluates events as they arrive. In the live burst the Sentinel alert was generated 8 min 43 s after the first failed logon. The rule's 10-minute schedule is a plausible contributor to the observed delay, but the exact contribution of scheduling and processing was not isolated. Across all tests the measurements ranged from 8 min 43 s to 21 min 17 s. For the two rules on a 10-minute schedule the expected maximum is about 11 min (schedule plus about 1 min ingestion), and two measurements exceeded it: about 13.5 min for the Run-key rule and 14 min 0 s for the failed-logon boundary test (by roughly 2.5 and 3 min). The privileged-role rule runs every 15 minutes, and its Owner test took 21 min 17 s; the Azure Activity ingestion delay was not measured. The causes were not investigated. A shorter schedule might lower the delay; this was not tested.
 
 ## Behaviour on benign activity
 
@@ -63,8 +63,9 @@ it is not like for like. Not tested: the High-severity path of T1098.003, and ne
 ## Takeaway
 
 Wazuh was faster and gave per-event alerts. Sentinel gave controllable correlation and visibility of cloud
-control-plane activity, at the cost of tuning and a detection delay of roughly 9-14 minutes in these tests. Both need allow-lists for
+control-plane activity, at the cost of tuning and a detection delay of roughly 9-21 minutes in these tests. Both need allow-lists for
 legitimate Run-key writes. They complement each other here more than they compete.
+
 
 
 
